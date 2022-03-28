@@ -6,36 +6,29 @@
  * @flow strict-local
  */
 
- import React, { useEffect } from 'react'
- import {Provider as PaperProvider, DefaultTheme} from 'react-native-paper'
- import AppNavigationContainer from './navigation/NavigationContainer'
- import Colors from './constants/Colors'
- import {Provider} from 'react-redux'
-import { PersistGate } from 'redux-persist/integration/react'
-import{ store,persistor} from './store/ConfigureStore'
-import {PermissionsAndroid} from 'react-native'
+import React, {useEffect} from 'react';
+import {Provider as PaperProvider, DefaultTheme} from 'react-native-paper';
+import {AppNavigationContainer} from './src/navigation/stack';
+import Colors from './src/constants/Colors';
+import {Provider} from 'react-redux';
+import {PersistGate} from 'redux-persist/integration/react';
+import {store, persistor} from './src/store/ConfigureStore';
+import {PermissionsAndroid} from 'react-native';
 
-
- 
- const App = () => {
-
-return(
-  <Provider store={store}>
+const App = () => {
+  return (
+    <Provider store={store}>
       <PersistGate persistor={persistor}>
-   <PaperProvider
-     theme={{
-       ...DefaultTheme,
-       colors: { ...DefaultTheme.colors, primary: Colors.primary },
-     }}
-   >
-     <AppNavigationContainer />
-    
-   </PaperProvider>
-   </PersistGate>
+        <PaperProvider
+          theme={{
+            ...DefaultTheme,
+            colors: {...DefaultTheme.colors, primary: Colors.primary},
+          }}>
+          <AppNavigationContainer />
+        </PaperProvider>
+      </PersistGate>
     </Provider>
+  );
+};
 
-)
-    }
- 
- export default App
- 
+export default App;
