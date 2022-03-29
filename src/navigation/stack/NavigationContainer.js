@@ -22,18 +22,6 @@ const AppNavigationContainer = () => {
     return subscriber; // unsubscribe on unmount
   }, []);
 
-  const getUserDetails = async () => {
-    const userData = await AsyncStorage.getItem('userDetails');
-    if (userData !== null) {
-      const parseUser = JSON.parse(userData);
-      dispatch(getUser(parseUser));
-    }
-  };
-
-  useEffect(() => {
-    // getUserDetails()
-  }, []);
-
   if (initializing) return null;
 
   return (

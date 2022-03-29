@@ -146,7 +146,7 @@ const LoginForm = ({navigation}) => {
               style={styles.socialLogoContainer}
               onPress={googleSignIn}>
               <Image
-                source={require('../.././assets/googleImg.jpg')}
+                source={require('../.././assets/images/googleImg.jpg')}
                 style={styles.socialLogo}
               />
             </TouchableOpacity>
@@ -154,7 +154,7 @@ const LoginForm = ({navigation}) => {
               style={styles.socialLogoContainer}
               onPress={facebookSignIn}>
               <Image
-                source={require('../.././assets/facebookImg.jpg')}
+                source={require('../.././assets/images/facebookImg.jpg')}
                 style={styles.socialLogo}
               />
             </TouchableOpacity>

@@ -18,7 +18,7 @@ import ImagePicker from '../../components/ImagePicker';
 import styles from './style';
 import Colors from '../../constants/Colors';
 
-const placeholderPath = '../../../assets/placeholder.jpg';
+const placeholderPath = '../../../assets/images/placeholder.jpg';
 
 const SignUpForm = ({navigation}) => {
   const dispatch = useDispatch();
