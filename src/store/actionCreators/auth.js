@@ -24,6 +24,20 @@ import {
 import storage from '@react-native-firebase/storage';
 import database from '@react-native-firebase/database';
 import {useReducer} from 'react';
+import messaging from '@react-native-firebase/messaging';
+
+export const requestUserPermission = () => {
+  return async dispatch => {
+    const authStatus = await messaging().requestPermission();
+
+    const enabled =
+      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+    if (enabled) {
+      console.log('Authorization status:', authStatus);
+    }
+  };
+};
 
 export const loginHandler = userDetails => {
   return async dispatch => {
@@ -33,7 +47,9 @@ export const loginHandler = userDetails => {
         userDetails.email,
         userDetails.password,
       );
-
+      // console.log(firebaseData);
+      // const idTokenResult = await auth().currentUser.getIdTokenResult();
+      // console.log('User JWT: ', idTokenResult.token);
       if (firebaseData.user.uid) {
         const userData = {...userDetails, userId: firebaseData.user.uid};
         getUserDetails(dispatch, firebaseData.user.uid);
@@ -245,6 +261,10 @@ const postUserDetails = async (dispatch, userData) => {
 
 const getUserDetails = async (dispatch, userId) => {
   try {
+    const fcmToken = await messaging().getToken();
+    console.log(fcmToken);
+    await database().ref(`/users/${userId}`).update({deviceToken: fcmToken});
+
     const response = await database().ref(`/users/${userId}`).once('value');
 
     const userDetails = response.val();
@@ -256,6 +276,7 @@ const getUserDetails = async (dispatch, userId) => {
     Alert.alert('', e.message);
     dispatch(disableLoader());
   }
+  dispatch(disableLoader());
 };
 
 export const logOutHandler = userDetails => {
@@ -282,6 +303,7 @@ export const logOutHandler = userDetails => {
         .then(user => {
           console.log('LOGOUT Successfully');
         });
+      await messaging().deleteToken();
       dispatch(logout());
     } catch (e) {
       console.log(e);

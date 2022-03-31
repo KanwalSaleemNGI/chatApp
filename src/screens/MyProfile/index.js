@@ -30,6 +30,8 @@ const MyProfile = ({navigation}) => {
   const emailRef = useRef();
   const phoneNumberRef = useRef();
 
+  const popupRef = useRef();
+
   let userImg;
 
   const {
@@ -83,6 +85,7 @@ const MyProfile = ({navigation}) => {
   ]);
 
   console.log(errors);
+
   return isLoading ? (
     <ShowLoader />
   ) : (

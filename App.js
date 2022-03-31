@@ -13,7 +13,7 @@ import Colors from './src/constants/Colors';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import {store, persistor} from './src/store/ConfigureStore';
-import {PermissionsAndroid} from 'react-native';
+import {Alert} from 'react-native';
 
 const App = () => {
   return (

@@ -26,6 +26,8 @@ import {createIconSetFromFontello} from 'react-native-vector-icons';
 import {useSelector} from 'react-redux';
 import database from '@react-native-firebase/database';
 import styles from './style';
+import messaging from '@react-native-firebase/messaging';
+import axios from 'axios';
 
 const placeholderImg = require('../../../assets/placeholder.jpg');
 
@@ -35,8 +37,12 @@ const UserChat = ({navigation, route}) => {
   const [cameraImage, setCameraImage] = useState([]);
   const [galleryImage, setGalleryImage] = useState([]);
   const userDetails = useSelector(state => state.auth.userDetails);
+  const deviceToken = userDetails.deviceToken;
+
   const chatUserDetails = route.params;
   const messageRef = useRef();
+  const date = new Date();
+  const createdDate = date.toString();
 
   const chatId = [userDetails.userId, chatUserDetails.userId].sort().join('_');
 
@@ -45,9 +51,6 @@ const UserChat = ({navigation, route}) => {
   };
 
   const messageHandler = async () => {
-    const date = new Date();
-    const createdDate = date.toString();
-
     const messageData = {
       text: message,
       senderId: userDetails.userId,
@@ -58,7 +61,40 @@ const UserChat = ({navigation, route}) => {
     try {
       await database().ref(`/chat/${chatId}/messages`).push().set(messageData);
 
-      await database().ref(`/chat/${chatId}`).update({recentChat: messageData});
+      await database()
+        .ref(`/chat/${chatId}`)
+        .update({
+          recentChat: {
+            ...messageData,
+            senderDeviceToken: deviceToken,
+            receiverDeviceToken: chatUserDetails.deviceToken,
+          },
+        });
+
+      const resposne = await fetch(
+        'https://fcm.googleapis.com/v1/projects/chatapp-10719/messages:send',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization:
+              'Bearer ya29.A0ARrdaM-33jUWm3fwo2PAzU0r5cKo6XtS29knumAF_SGl4Zcae6s7fKzGsQWjHrxdQ0EtNcdZkoy0-AH8lp_kiOgXdLPvWdUclcyGz5Z0ehl4-mxVKqhwttFJiBCocmZSJb88IecAFVq00EhdDnOAf1xmuExE',
+          },
+          body: JSON.stringify({
+            message: {
+              token: userDetails.deviceToken,
+              data: {},
+              notification: {
+                body: message,
+                title: `${chatUserDetails.firstName}${chatUserDetails.lastName}`,
+              },
+            },
+          }),
+        },
+      );
+      const responseData = await resposne.json();
+      console.log(responseData);
+
       setMessage('');
       messageRef.current.blur();
     } catch (e) {

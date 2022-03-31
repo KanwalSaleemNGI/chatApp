@@ -3,6 +3,7 @@ import {View, Text, TouchableOpacity, Image} from 'react-native';
 import {Card} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import storage from '@react-native-firebase/storage';
+import styles from './style';
 
 const UserInfo = ({item, resetHandler}) => {
   const navigation = useNavigation();

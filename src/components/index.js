@@ -6,3 +6,4 @@ export {default as Message} from './Message';
 export {default as ShowLoader} from './ShowLoader';
 export {default as UserChatHeader} from './UserChatHeader';
 export {default as UserInfo} from './UserInfo';
+export {default as CustomPopUp} from './CustomPopUp';

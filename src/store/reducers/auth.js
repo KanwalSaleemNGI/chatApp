@@ -1,10 +1,8 @@
-import { persistReducer } from 'redux-persist';
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import {persistReducer} from 'redux-persist';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {act} from 'react-test-renderer';
 
 const initialState = {userDetails: null, isLoading: false};
-
-
-
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -36,12 +34,9 @@ const authReducer = (state = initialState, action) => {
       };
     }
 
-
     default:
       return state;
   }
 };
-
-
 
 export default authReducer;
