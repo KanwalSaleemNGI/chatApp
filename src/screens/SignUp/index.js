@@ -55,8 +55,12 @@ const SignUpForm = ({navigation}) => {
   return isLoading ? (
     <ShowLoader />
   ) : (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <ScrollView contentContainerStyle={styles.screen}>
+    <TouchableWithoutFeedback
+      onPress={() => Keyboard.dismiss()}
+      testID="signUpView">
+      <ScrollView
+        contentContainerStyle={styles.screen}
+        keyboardShouldPersistTaps="always">
         <ImagePicker
           photo={photo}
           imageModal={imageModal}
@@ -65,6 +69,7 @@ const SignUpForm = ({navigation}) => {
         />
 
         <Input
+          testID="firstNameInput"
           style={styles.input}
           control={control}
           rules={{
@@ -89,6 +94,7 @@ const SignUpForm = ({navigation}) => {
           </Text>
         )}
         <Input
+          testID="lastNameInput"
           style={styles.input}
           control={control}
           rules={{
@@ -114,6 +120,7 @@ const SignUpForm = ({navigation}) => {
         )}
 
         <Input
+          testID="phoneNumberInput"
           style={styles.input}
           control={control}
           rules={{
@@ -143,6 +150,7 @@ const SignUpForm = ({navigation}) => {
           </Text>
         )}
         <Input
+          testID="emailInput"
           style={styles.input}
           container={{marginTop: 60}}
           control={control}
@@ -174,6 +182,7 @@ const SignUpForm = ({navigation}) => {
         )}
 
         <Input
+          testID="passwordInput"
           style={styles.input}
           control={control}
           name="password"
@@ -202,6 +211,7 @@ const SignUpForm = ({navigation}) => {
 
         <AuthButton
           style={styles.buttonContainer}
+          testID="signUpButton"
           onPress={handleSubmit(onSubmit)}>
           Sign Up
         </AuthButton>
@@ -212,7 +222,8 @@ const SignUpForm = ({navigation}) => {
           </Text>
           <TouchableOpacity
             activeOpacity={0.7}
-            onPress={() => navigation.navigate('loginForm')}>
+            onPress={() => navigation.navigate('loginForm')}
+            testID="loginButton">
             <Text
               style={[styles.text, {color: Colors.primary}]}
               allowFontScaling={false}>
@@ -220,7 +231,6 @@ const SignUpForm = ({navigation}) => {
             </Text>
           </TouchableOpacity>
         </View>
-        {/* {imagePickerModal()} */}
       </ScrollView>
     </TouchableWithoutFeedback>
   );

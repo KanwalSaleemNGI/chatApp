@@ -2,9 +2,13 @@ import {StyleSheet} from 'react-native';
 import Colors from '../../constants/Colors';
 
 const styles = StyleSheet.create({
-  screen: {
+  container: {
     flexGrow: 1,
     backgroundColor: Colors.backgroundColor,
+  },
+  screen: {
+    // flexGrow: 1,
+    // backgroundColor: Colors.backgroundColor,
     alignItems: 'center',
     paddingTop: 20,
   },

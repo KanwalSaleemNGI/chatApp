@@ -8,7 +8,8 @@ const AuthButton = props => {
       style={[styles.buttonContainer, props.style]}
       onPress={props.onPress}
       disabled={props.disabled}
-      activeOpacity={0.7}>
+      activeOpacity={0.7}
+      testID={props.testID}>
       <Text style={styles.buttonText} allowFontScaling={false}>
         {props.children}
       </Text>

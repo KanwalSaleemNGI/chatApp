@@ -1,5 +1,5 @@
 import React, {forwardRef} from 'react';
-import {View, TextInput} from 'react-native';
+import {View, TextInput, Alert, Keyboard} from 'react-native';
 import {useController} from 'react-hook-form';
 import Colors from '../../constants/Colors';
 import styles from './style';
@@ -20,6 +20,9 @@ const Input = forwardRef((props, ref) => {
         props.errors && styles.errorBorder,
       ]}>
       <TextInput
+        onBlur={props.onBlur}
+        // onBlur={() => Keyboard.dismiss()}
+        testID={props.testID}
         value={field.value}
         onChangeText={field.onChange}
         style={[styles.input, props.style]}

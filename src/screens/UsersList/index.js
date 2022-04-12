@@ -5,7 +5,11 @@ import {
   TextInput,
   TouchableOpacity,
   Text,
-  Ev,
+  TouchableWithoutFeedback,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  Alert,
 } from 'react-native';
 import Colors from '../../constants/Colors';
 import {UserInfo, ChatInfo} from '../../components';
@@ -15,10 +19,12 @@ import {useSelector} from 'react-redux';
 import {get} from 'react-hook-form';
 import dayjs from 'dayjs';
 import styles from './style';
+import {useNavigation} from '@react-navigation/native';
 
 const placeholderImg = require('../../../assets/placeholder.jpg');
 
 const UsersList = () => {
+  const navigation = useNavigation();
   const [chatList, setChatList] = useState([]);
   const [searchList, setSearchList] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
@@ -53,6 +59,7 @@ const UsersList = () => {
       setSearchUsers(allUsers);
     }
   };
+
   const resetHandler = () => {
     setSearch('');
   };
@@ -111,7 +118,7 @@ const UsersList = () => {
   };
 
   return (
-    <View style={styles.screen}>
+    <View style={styles.screen} testID="usersListView">
       <View style={styles.searchUserContainer}>
         <TextInput
           placeholder="Search"
@@ -121,6 +128,10 @@ const UsersList = () => {
           value={search}
           onChangeText={searchHandler}
           ref={searchRef}
+          testID="searchInput"
+          onBlur={() => {
+            Keyboard.dismiss();
+          }}
         />
         <TouchableOpacity
           onPress={() => searchRef.current.focus()}
@@ -130,42 +141,30 @@ const UsersList = () => {
       </View>
 
       <View style={styles.usersListContainer}>
-        {search === '' ? (
-          <FlatList
-            contentContainerStyle={styles.usersList}
-            initialNumToRender={5}
-            data={chatList}
-            ListEmptyComponent={() => (
-              <View>
-                <Text style={styles.noTitle}>No Chats</Text>
-              </View>
-            )}
-            showsVerticalScrollIndicator={false}
-            keyExtractor={item => item.id}
-            // onEndReached={() => console.log('end')}
-            renderItem={({item}) => <ChatInfo item={item} />}
-          />
-        ) : (
-          <FlatList
-            contentContainerStyle={styles.usersList}
-            initialNumToRender={5}
-            data={searchUsers}
-            ListEmptyComponent={() => (
-              <View>
-                <Text style={styles.noTitle}>No Users</Text>
-              </View>
-            )}
-            showsVerticalScrollIndicator={false}
-            keyExtractor={item => item.userId}
-            renderItem={({item}) => (
+        <FlatList
+          keyboardShouldPersistTaps="always"
+          contentContainerStyle={styles.usersList}
+          initialNumToRender={5}
+          data={!search ? chatList : searchUsers}
+          ListEmptyComponent={() => (
+            <View>
+              <Text style={styles.noTitle}>No Chats</Text>
+            </View>
+          )}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={item => (!search ? item.id : item.userId)}
+          renderItem={({item}) =>
+            !search ? (
+              <ChatInfo item={item} />
+            ) : (
               <UserInfo
                 item={item}
                 key={item.userId}
                 resetHandler={resetHandler}
               />
-            )}
-          />
-        )}
+            )
+          }
+        />
       </View>
     </View>
   );

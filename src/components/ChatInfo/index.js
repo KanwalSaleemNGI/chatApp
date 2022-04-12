@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect} from 'react';
-import {View, Text, TouchableOpacity, Image} from 'react-native';
+import {View, Text, TouchableOpacity, Image, Keyboard} from 'react-native';
 import {Card} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import database from '@react-native-firebase/database';
@@ -12,8 +12,10 @@ const chatInfo = ({item}) => {
     <TouchableOpacity
       style={styles.userContainer}
       activeOpacity={0.6}
+      testID={item.userChatData.userId}
       onPress={() => {
         navigation.navigate('userChat', item.userChatData);
+        console.log('userId:', item.userChatData.userId);
       }}>
       <View style={styles.profileContainer}>
         <View style={styles.imageContainer}>

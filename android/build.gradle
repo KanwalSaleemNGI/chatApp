@@ -13,6 +13,7 @@ buildscript {
         google()
         mavenCentral()
     }
+   
     dependencies {
         classpath("com.android.tools.build:gradle:4.2.2")
         // NOTE: Do not place your application dependencies here; they belong
@@ -35,7 +36,10 @@ allprojects {
             // Android JSC is installed from npm
             url("$rootDir/../node_modules/jsc-android/dist")
         }
-
+  maven {
+            // All of Detox' artifacts are provided via the npm module
+            url "$rootDir/../node_modules/detox/Detox-android"
+        }
        
         mavenCentral {
             // We don't want to fetch react-native from Maven Central as there are

@@ -1,5 +1,12 @@
 import React, {useEffect} from 'react';
-import {View, Text, TouchableOpacity, Image} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  Alert,
+  Keyboard,
+} from 'react-native';
 import {Card} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import storage from '@react-native-firebase/storage';
@@ -9,10 +16,13 @@ const UserInfo = ({item, resetHandler}) => {
   const navigation = useNavigation();
   return (
     <TouchableOpacity
+      testID={item.userId}
       style={styles.userContainer}
       activeOpacity={0.6}
       onPress={() => {
-        navigation.navigate('userChat', item), resetHandler();
+        navigation.navigate('userChat', item),
+          resetHandler(),
+          console.log('userId:', item.userId);
       }}>
       <View style={styles.profileContainer}>
         <View style={styles.imageContainer}>

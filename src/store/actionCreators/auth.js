@@ -42,10 +42,14 @@ export const requestUserPermission = () => {
 export const loginHandler = userDetails => {
   return async dispatch => {
     dispatch(enableLoader());
+    let someText = userDetails.password.replace(/(\r\n|\n|\r)/gm, '');
+    console.log(someText);
     try {
       const firebaseData = await auth().signInWithEmailAndPassword(
         userDetails.email,
-        userDetails.password,
+        // userDetails.password,
+        // '123456',
+        someText,
       );
       // console.log(firebaseData);
       // const idTokenResult = await auth().currentUser.getIdTokenResult();
@@ -179,6 +183,7 @@ export const fbSignInHandler = () => {
 export const signUpHandler = (userDetails, photo) => {
   return async dispatch => {
     dispatch(enableLoader());
+
     try {
       if (photo?.fileName) {
         const imageBucketPath = `/Assets/Images/${photo?.fileName}`;

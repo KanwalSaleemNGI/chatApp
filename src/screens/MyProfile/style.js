@@ -2,6 +2,10 @@ import {StyleSheet} from 'react-native';
 import Colors from '../../constants/Colors';
 
 const styles = StyleSheet.create({
+  container: {
+    flexGrow: 1,
+    backgroundColor: Colors.backgroundColor,
+  },
   screen: {
     flexGrow: 1,
     backgroundColor: Colors.backgroundColor,

@@ -38,7 +38,9 @@ const defaultNavOptions = props => ({
 
   headerLeft: () => {
     return (
-      <TouchableOpacity onPress={() => props.navigation.goBack()}>
+      <TouchableOpacity
+        onPress={() => props.navigation.goBack()}
+        testID="backButton">
         <Text
           style={{
             fontSize: 16,

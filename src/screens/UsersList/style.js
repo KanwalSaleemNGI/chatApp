@@ -2,14 +2,21 @@ import {StyleSheet} from 'react-native';
 import Colors from '../../constants/Colors';
 
 const styles = StyleSheet.create({
-  screen: {
+  container: {
+    flexGrow: 1,
     backgroundColor: Colors.backgroundColor,
+  },
+  screen: {
     alignItems: 'center',
     flexGrow: 1,
+    backgroundColor: Colors.backgroundColor,
   },
+
   usersListContainer: {
     width: '100%',
-    padding: 10,
+    // padding: 10,
+    flex: 1,
+    paddingHorizontal: 10,
   },
   usersList: {},
   searchUserContainer: {

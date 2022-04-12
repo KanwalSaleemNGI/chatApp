@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   ScrollView,
   Alert,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import Colors from '../../constants/Colors';
 import {useForm} from 'react-hook-form';
@@ -51,7 +53,7 @@ const MyProfile = ({navigation}) => {
 
   const onSubmit = data => {
     console.log(data);
-
+    // Alert.alert('', 'Hello');
     dispatch(
       editProfileHandler(data, userDetails, profileSuccessHandler, photo),
     );
@@ -89,8 +91,16 @@ const MyProfile = ({navigation}) => {
   return isLoading ? (
     <ShowLoader />
   ) : (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <ScrollView contentContainerStyle={styles.screen}>
+    // <KeyboardAvoidingView
+    //   behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    //   style={styles.container}>
+    <TouchableWithoutFeedback
+      onPress={() => Keyboard.dismiss()}
+      testID="myProfileView">
+      <ScrollView
+        contentContainerStyle={styles.screen}
+        testID="myProfileView"
+        keyboardShouldPersistTaps="always">
         <ImagePicker
           photo={photo}
           imageModal={imageModal}
@@ -115,6 +125,7 @@ const MyProfile = ({navigation}) => {
           }}
           blurOnSubmit={false}
           returnKeyType="next"
+          testID="firstNameInput"
         />
         {errors.firstName && (
           <Text style={styles.errorText} allowFontScaling={false}>
@@ -139,6 +150,7 @@ const MyProfile = ({navigation}) => {
           }}
           blurOnSubmit={false}
           returnKeyType="next"
+          testID="lastNameInput"
         />
         {errors.lastName && (
           <Text style={styles.errorText} allowFontScaling={false}>
@@ -164,11 +176,12 @@ const MyProfile = ({navigation}) => {
             phoneNumberRef.current = e;
           }}
           onSubmitEditing={() => {
-            emailRef.current.focus();
+            phoneNumberRef.current.blur();
           }}
           keyboardType={'phone-pad'}
           blurOnSubmit={false}
           returnKeyType="next"
+          testID="phoneNumberInput"
         />
         {errors.phoneNumber && (
           <Text style={styles.errorText} allowFontScaling={false}>
@@ -209,11 +222,13 @@ const MyProfile = ({navigation}) => {
 
         <AuthButton
           style={styles.buttonContainer}
+          testID="editProfileButton"
           onPress={handleSubmit(onSubmit)}>
           Edit Profile
         </AuthButton>
       </ScrollView>
     </TouchableWithoutFeedback>
+    // </KeyboardAvoidingView>
   );
 };
 

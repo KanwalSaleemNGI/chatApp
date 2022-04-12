@@ -40,6 +40,8 @@ const UserChat = ({navigation, route}) => {
   const deviceToken = userDetails.deviceToken;
 
   const chatUserDetails = route.params;
+
+  console.log(chatUserDetails);
   const messageRef = useRef();
   const date = new Date();
   const createdDate = date.toString();

@@ -3,10 +3,9 @@ import Colors from '../../constants/Colors';
 
 const styles = StyleSheet.create({
   screen: {
-    flexGrow: 1,
+    flex: 1,
     backgroundColor: Colors.backgroundColor,
-    paddingBottom: 10,
-    paddingTop: 10,
+    paddingVertical: 10,
   },
 
   infoContainer: {
