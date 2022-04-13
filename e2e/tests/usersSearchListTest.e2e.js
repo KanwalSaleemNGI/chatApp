@@ -13,7 +13,7 @@ describe('MyChatsSearch', () => {
     await element(by.id('myChatsButton')).tap();
     await waitToNavigate(3000);
   });
-  it('should have userList screen', async () => {
+  it('should have user search ist screen', async () => {
     await expect(element(by.id('usersListView'))).toBeVisible();
     await waitToNavigate(3000);
   });

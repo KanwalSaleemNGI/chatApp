@@ -168,7 +168,7 @@ const UserChat = ({navigation, route}) => {
   }, [getUserChat]);
 
   return (
-    <View style={styles.screen}>
+    <View style={styles.screen} testID="userChatView">
       <UserChatHeader chatUserDetails={chatUserDetails} />
 
       <FlatList
@@ -185,6 +185,7 @@ const UserChat = ({navigation, route}) => {
 
       <View style={styles.searchUserContainer}>
         <TextInput
+          testID="messageInput"
           placeholder="Message"
           placeholderTextColor={Colors.black}
           multiline={true}
@@ -200,10 +201,14 @@ const UserChat = ({navigation, route}) => {
           secureTextEntry={true}
           blurOnSubmit={false}
           returnKeyType="next"
+          onBlur={() => Keyboard.dismiss()}
         />
         <View style={styles.sendContainer}>
-          {message != '' ? (
-            <TouchableOpacity onPress={messageHandler} activeOpacity={0.6}>
+          {message ? (
+            <TouchableOpacity
+              onPress={messageHandler}
+              activeOpacity={0.6}
+              testID="sendMessageButton">
               <Icon name="send" color={Colors.primary} size={30} />
             </TouchableOpacity>
           ) : (
