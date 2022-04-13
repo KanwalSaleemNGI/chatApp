@@ -3,7 +3,10 @@ const waitToNavigate = duration =>
 
 describe('SignUp', () => {
   beforeAll(async () => {
-    await device.launchApp();
+    await device.launchApp({
+      newInstance: true,
+      permissions: {notifications: 'YES'},
+    });
   });
 
   it('should have login screen', async () => {
@@ -37,8 +40,8 @@ describe('SignUp', () => {
     await element(by.id('signUpView')).scrollTo('bottom');
   });
 
-  const emailText = 'cyz@gmail.com';
-  it('it should type email: cyz@gmail.com', async () => {
+  const emailText = 'dyz@gmail.com';
+  it('it should type email: dyz@gmail.com', async () => {
     const input = element(by.id('emailInput'));
     await input.typeText(emailText);
   });

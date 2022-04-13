@@ -3,7 +3,10 @@ import waitToNavigate from '../components/waitToNavigate';
 
 describe('UserChat', () => {
   beforeAll(async () => {
-    await device.launchApp();
+    await device.launchApp({
+      newInstance: true,
+      permissions: {notifications: 'YES'},
+    });
   });
 
   usersList();

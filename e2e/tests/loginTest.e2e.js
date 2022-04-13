@@ -3,7 +3,10 @@ const waitToNavigate = duration =>
 
 describe('Login', () => {
   beforeAll(async () => {
-    await device.launchApp();
+    await device.launchApp({
+      newInstance: true,
+      permissions: {notifications: 'YES'},
+    });
   });
 
   it('should have login screen', async () => {

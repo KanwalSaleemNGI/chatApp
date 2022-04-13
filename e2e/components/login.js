@@ -10,7 +10,7 @@ const login = () =>
 
     const passwordText = '123456';
     const passwordInput = element(by.id('passwordInput'));
-    await passwordInput.replaceText(`${passwordText}\n`);
+    await passwordInput.typeText(passwordText);
 
     await element(by.id('loginButton')).tap();
     await waitToNavigate(5000);

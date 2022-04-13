@@ -42,29 +42,24 @@ export const requestUserPermission = () => {
 export const loginHandler = userDetails => {
   return async dispatch => {
     dispatch(enableLoader());
-    let someText = userDetails.password.replace(/(\r\n|\n|\r)/gm, '');
-    console.log(someText);
+
     try {
       const firebaseData = await auth().signInWithEmailAndPassword(
         userDetails.email,
-        // userDetails.password,
-        // '123456',
-        someText,
+        userDetails.password,
       );
-      // console.log(firebaseData);
-      // const idTokenResult = await auth().currentUser.getIdTokenResult();
-      // console.log('User JWT: ', idTokenResult.token);
+
       if (firebaseData.user.uid) {
         const userData = {...userDetails, userId: firebaseData.user.uid};
         getUserDetails(dispatch, firebaseData.user.uid);
+      } else {
+        dispatch(disableLoader());
       }
     } catch (e) {
       console.log(e);
       Alert.alert('', e.message);
       dispatch(disableLoader());
     }
-
-    dispatch(disableLoader());
   };
 };
 
@@ -100,6 +95,8 @@ export const googleSignInHandler = () => {
         };
 
         postUserDetails(dispatch, userData);
+      } else {
+        dispatch(disableLoader());
       }
     } catch (error) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
@@ -117,7 +114,6 @@ export const googleSignInHandler = () => {
       }
       dispatch(disableLoader());
     }
-    dispatch(disableLoader());
   };
 };
 
@@ -171,6 +167,8 @@ export const fbSignInHandler = () => {
         };
 
         postUserDetails(dispatch, userData);
+      } else {
+        dispatch(disableLoader());
       }
     } catch (error) {
       console.log(error);
@@ -216,14 +214,14 @@ export const signUpHandler = (userDetails, photo) => {
 
         console.log(userData);
         postUserDetails(dispatch, userData);
+      } else {
+        dispatch(disableLoader());
       }
     } catch (e) {
       console.log(e);
       Alert.alert('', e.message);
       dispatch(disableLoader());
     }
-
-    dispatch(disableLoader());
   };
 };
 
@@ -262,6 +260,7 @@ const postUserDetails = async (dispatch, userData) => {
     Alert.alert('', e.message);
     dispatch(disableLoader());
   }
+  dispatch(disableLoader());
 };
 
 const getUserDetails = async (dispatch, userId) => {

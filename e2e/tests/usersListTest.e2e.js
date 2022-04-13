@@ -4,7 +4,10 @@ import usersList from '../components/usersList';
 
 describe('MyChats', () => {
   beforeAll(async () => {
-    await device.launchApp();
+    await device.launchApp({
+      newInstance: true,
+      permissions: {notifications: 'YES'},
+    });
   });
 
   usersList();
