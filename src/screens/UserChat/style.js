@@ -54,6 +54,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: Colors.black,
   },
+  sendContainer: {
+    margin: 15,
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+  },
 });
 
 export default styles;

@@ -7,7 +7,6 @@ const styles = StyleSheet.create({
   },
   messageContainer: {
     borderRadius: 10,
-    flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 10,
   },
@@ -19,11 +18,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.inputField,
     alignSelf: 'flex-start',
   },
-  titleContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    padding: 10,
-  },
 
   message: {
     fontFamily: 'Roboto-Regular',
@@ -32,12 +26,25 @@ const styles = StyleSheet.create({
     maxWidth: '80%',
   },
   time: {
+    alignSelf: 'flex-end',
     fontFamily: 'Roboto-Regular',
     fontSize: 12,
-    // color: '#6f7571',
-    color: Colors.black,
-    textAlignVertical: 'bottom',
+    color: Colors.common.darkGrey,
     marginHorizontal: 5,
+  },
+  imageContainer: {
+    maxWidth: '80%',
+  },
+  image: {
+    maxWidth: '100%',
+    height: 200,
+    justifyContent: 'center',
+  },
+  imageTitle: {
+    color: Colors.white,
+    fontFamily: 'Roboto-Medium',
+    fontSize: 24,
+    textAlign: 'center',
   },
 });
 

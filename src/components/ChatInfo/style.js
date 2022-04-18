@@ -32,9 +32,21 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: Colors.black,
   },
+  subTitle: {
+    fontFamily: 'Roboto-Regular',
+    fontSize: 14,
+    color: Colors.common.darkGrey,
+  },
   timeContainer: {
-    width: '20%',
     alignItems: 'flex-end',
+  },
+  time: {
+    fontFamily: 'Roboto-Regular',
+    fontSize: 12,
+    color: Colors.common.darkGrey,
+  },
+  photoContainer: {
+    flexDirection: 'row',
   },
 });
 

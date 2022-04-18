@@ -86,7 +86,6 @@ const UsersList = () => {
           const userChatData = response.val();
           chatListData.push({...chatData, id: data.key, userChatData});
         }
-
         if (totalChatCount === index + 1) {
           chatListData.sort((a, b) => {
             return (
@@ -148,7 +147,9 @@ const UsersList = () => {
           data={!search ? chatList : searchUsers}
           ListEmptyComponent={() => (
             <View>
-              <Text style={styles.noTitle}>No Chats</Text>
+              <Text style={styles.noTitle}>
+                {!search ? 'No Chats' : 'No Users'}
+              </Text>
             </View>
           )}
           showsVerticalScrollIndicator={false}

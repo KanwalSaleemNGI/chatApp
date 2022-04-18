@@ -7,3 +7,4 @@ export {default as ShowLoader} from './ShowLoader';
 export {default as UserChatHeader} from './UserChatHeader';
 export {default as UserInfo} from './UserInfo';
 export {default as CustomPopUp} from './CustomPopUp';
+export {default as ImageViewer} from './ImageViewer';

@@ -1,12 +1,17 @@
 import React, {useCallback, useEffect} from 'react';
 import {View, Text, TouchableOpacity, Image, Keyboard} from 'react-native';
+import dayjs from 'dayjs';
 import {Card} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import database from '@react-native-firebase/database';
 import styles from './style';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import Colors from '../../constants/Colors';
 
 const chatInfo = ({item}) => {
   const navigation = useNavigation();
+
+  const date = dayjs(item.recentChat.createdDate).format('DD/MM/YYYY');
 
   return (
     <TouchableOpacity
@@ -28,12 +33,21 @@ const chatInfo = ({item}) => {
           <Text style={styles.title}>
             {item.userChatData.firstName} {item.userChatData.lastName}
           </Text>
-          {/* <Text style={styles.subTitle}>{item.recentChat}</Text> */}
+          {item.text ? (
+            <Text style={styles.subTitle} numberOfLines={1}>
+              {item.recentChat.text}
+            </Text>
+          ) : (
+            <View style={styles.photoContainer}>
+              <Icon name="image" color={Colors.common.darkGrey} size={20} />
+              <Text style={styles.subTitle}>Photo</Text>
+            </View>
+          )}
         </View>
       </View>
-      {/* <View style={styles.timeContainer}>
-<Text style={item.recentChat}>{item.time}</Text>
-</View> */}
+      <View style={styles.timeContainer}>
+        <Text style={styles.time}>{date}</Text>
+      </View>
     </TouchableOpacity>
   );
 };
