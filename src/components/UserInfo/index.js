@@ -14,6 +14,7 @@ import styles from './style';
 
 const UserInfo = ({item, resetHandler}) => {
   const navigation = useNavigation();
+
   return (
     <TouchableOpacity
       testID={item.userId}
@@ -32,12 +33,8 @@ const UserInfo = ({item, resetHandler}) => {
           <Text style={styles.title}>
             {item.firstName} {item.lastName}
           </Text>
-          {/* <Text style={styles.subTitle}>{item.recentChat}</Text> */}
         </View>
       </View>
-      {/* <View style={styles.timeContainer}>
-<Text style={item.recentChat}>{item.time}</Text>
-</View> */}
     </TouchableOpacity>
   );
 };

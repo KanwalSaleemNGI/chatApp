@@ -12,7 +12,7 @@ import {
   Alert,
 } from 'react-native';
 import Colors from '../../constants/Colors';
-import {UserInfo, ChatInfo} from '../../components';
+import {UserInfo, ChatInfo, ShowLoader} from '../../components';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import database from '@react-native-firebase/database';
 import {useSelector} from 'react-redux';
@@ -29,6 +29,7 @@ const UsersList = () => {
   const [searchList, setSearchList] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
   const [searchUsers, setSearchUsers] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const [search, setSearch] = useState('');
   const searchRef = useRef();
@@ -85,6 +86,7 @@ const UsersList = () => {
             .once('value');
           const userChatData = response.val();
           chatListData.push({...chatData, id: data.key, userChatData});
+          setChatList(chatListData);
         }
         if (totalChatCount === index + 1) {
           chatListData.sort((a, b) => {
@@ -93,10 +95,12 @@ const UsersList = () => {
               dayjs(a.recentChat.createdDate).unix()
             );
           });
-
           setChatList(chatListData);
+          setIsLoading(false);
         }
       });
+    } else {
+      setIsLoading(false);
     }
   };
 
@@ -116,7 +120,9 @@ const UsersList = () => {
     setSearchUsers(filteredUsers);
   };
 
-  return (
+  return isLoading ? (
+    <ShowLoader />
+  ) : (
     <View style={styles.screen} testID="usersListView">
       <View style={styles.searchUserContainer}>
         <TextInput

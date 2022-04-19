@@ -13,7 +13,7 @@ import storage from '@react-native-firebase/storage';
 import {useNavigation} from '@react-navigation/native';
 
 const Message = props => {
-  const {item, userId} = props;
+  const {item, userId, setMessageImageVisible, setMessageImages} = props;
   const navigation = useNavigation();
 
   const date = dayjs(item.createdDate).format('DD/MM/YYYY,  hh:mm');
@@ -33,7 +33,9 @@ const Message = props => {
         ) : (
           <TouchableOpacity
             style={styles.imageContainer}
-            onPress={() => navigation.navigate('imageViewer', item.images)}>
+            onPress={() => {
+              setMessageImageVisible(true), setMessageImages(item.images);
+            }}>
             <ImageBackground
               source={{uri: item.images[0].uri}}
               resizeMode="cover"
@@ -53,4 +55,4 @@ const Message = props => {
   );
 };
 
-export default Message;
+export default React.memo(Message);

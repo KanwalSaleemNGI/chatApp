@@ -1,13 +1,7 @@
 import React from 'react';
 import {Platform, TouchableOpacity, Text} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {
-  Dashboard,
-  MyProfile,
-  UserChat,
-  UsersList,
-  ImageViewer,
-} from '../../screens';
+import {Dashboard, MyProfile, UserChat, UsersList} from '../../screens';
 import Colors from '../../constants/Colors';
 
 const screens = [
@@ -33,12 +27,6 @@ const screens = [
     key: 4,
     name: 'userChat',
     component: UserChat,
-    options: {headerShown: false},
-  },
-  {
-    key: 5,
-    name: 'imageViewer',
-    component: ImageViewer,
     options: {headerShown: false},
   },
 ];

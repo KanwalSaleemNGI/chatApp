@@ -18,7 +18,12 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
-import {UserChatHeader, Message, ImageViewer} from '../../components';
+import {
+  UserChatHeader,
+  Message,
+  ImageViewer,
+  ShowLoader,
+} from '../../components';
 import Colors from '../../constants/Colors';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
@@ -38,10 +43,13 @@ const UserChat = ({navigation, route}) => {
   const [cameraImage, setCameraImage] = useState([]);
   const [galleryImage, setGalleryImage] = useState([]);
   const [messageImages, setMessageImages] = useState([]);
+  const [chatImages, setChatImages] = useState([]);
   const [imageVisible, setImageVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [messageImageVisible, setMessageImageVisible] = useState(false);
 
   const userDetails = useSelector(state => state.auth.userDetails);
-
+  console.log('chat');
   const deviceToken = userDetails.deviceToken;
 
   const chatUserDetails = route.params;
@@ -49,12 +57,14 @@ const UserChat = ({navigation, route}) => {
   const messageRef = useRef();
 
   const chatId = [userDetails.userId, chatUserDetails.userId].sort().join('_');
+  const chatRef = database().ref(`chat/${chatId}/messages`);
 
   const updateMessage = text => {
     setMessage(text);
   };
 
   const messageHandler = async (messageType, images) => {
+    setIsLoading(true);
     const date = new Date();
     const createdDate = date.toString();
 
@@ -113,17 +123,20 @@ const UserChat = ({navigation, route}) => {
       setMessage('');
       setImageVisible(false);
       setMessageImages([]);
+      setIsLoading(false);
       messageRef.current.blur();
     } catch (e) {
       console.log(e.message);
       Alert.alert('', e.message);
+      setIsLoading(false);
     }
   };
 
   const imageMessageHandler = () => {
-    let chatImages = [];
+    setIsLoading(true);
+    let newChatImages = [];
     try {
-      messageImages.map(async (image, index) => {
+      chatImages.map(async (image, index) => {
         const imageBucketPath = `/Assets/Images/chat/${image?.fileName}`;
         const reference = storage().ref(imageBucketPath);
 
@@ -131,15 +144,16 @@ const UserChat = ({navigation, route}) => {
         const url = await storage()
           .ref(`/Assets/Images/chat/${image.fileName}`)
           .getDownloadURL();
-        chatImages.push({uri: url});
+        newChatImages.push({uri: url});
 
         if (messageImages.length === index + 1) {
-          messageHandler('images', chatImages);
+          messageHandler('images', newChatImages);
         }
       });
     } catch (e) {
       console.log(e);
       Alert.alert('', e.message);
+      setIsLoading(false);
     }
   };
 
@@ -162,7 +176,7 @@ const UserChat = ({navigation, route}) => {
       response.assets &&
         setCameraImage(prev => prev.concat(response.assets[0]));
 
-      setMessageImages(cameraMesageImages.concat(response.assets[0]));
+      setChatImages(cameraMesageImages.concat(response.assets[0]));
       setImageVisible(true);
     });
   };
@@ -188,30 +202,27 @@ const UserChat = ({navigation, route}) => {
         return;
       } else {
         setGalleryImage(response.assets);
-        setMessageImages(response.assets);
+        setChatImages(response.assets);
         setImageVisible(true);
       }
       console.log(response.assets);
     });
   };
 
-  const getUserChat = useCallback(() => {
-    const chatRef = database().ref(`chat/${chatId}/messages`);
-    chatRef.orderByValue().on('value', snapshot => {
-      const chatDetails = [];
-      snapshot.forEach(data => {
-        chatDetails.push({...data.val(), id: data.key});
-      });
-
-      setUserChat(chatDetails.reverse());
+  const getUserChat = snapshot => {
+    const chatDetails = [];
+    snapshot.forEach(data => {
+      chatDetails.push({...data.val(), id: data.key});
     });
-  }, []);
+
+    setUserChat(chatDetails.reverse());
+  };
 
   useEffect(() => {
-    getUserChat();
-    const chatRef = database().ref(`chat/${chatId}/messages`);
+    chatRef.orderByValue().on('value', getUserChat);
+
     return () => chatRef.off();
-  }, [getUserChat]);
+  }, []);
 
   const ImageViewerFooter = () => {
     return (
@@ -225,16 +236,24 @@ const UserChat = ({navigation, route}) => {
     );
   };
 
-  return (
+  return isLoading ? (
+    <ShowLoader />
+  ) : (
     <View style={styles.screen} testID="userChatView">
       <UserChatHeader chatUserDetails={chatUserDetails} />
       <ImageViewer
         visible={imageVisible}
         setVisible={setImageVisible}
-        messageImages={messageImages}
+        messageImages={chatImages}
         footer={ImageViewerFooter}
       />
-      {!imageVisible && (
+      <ImageViewer
+        visible={messageImageVisible}
+        setVisible={setMessageImageVisible}
+        messageImages={messageImages}
+      />
+
+      {!imageVisible && !messageImageVisible && (
         <FlatList
           style={styles.userChatContainer}
           scrollEnabled
@@ -243,7 +262,12 @@ const UserChat = ({navigation, route}) => {
           keyExtractor={item => item.id}
           inverted
           renderItem={({item}) => (
-            <Message item={item} userId={userDetails.userId} />
+            <Message
+              item={item}
+              userId={userDetails.userId}
+              setMessageImageVisible={setMessageImageVisible}
+              setMessageImages={setMessageImages}
+            />
           )}
         />
       )}

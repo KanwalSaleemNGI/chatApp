@@ -33,7 +33,7 @@ const chatInfo = ({item}) => {
           <Text style={styles.title}>
             {item.userChatData.firstName} {item.userChatData.lastName}
           </Text>
-          {item.text ? (
+          {item.recentChat.text ? (
             <Text style={styles.subTitle} numberOfLines={1}>
               {item.recentChat.text}
             </Text>
