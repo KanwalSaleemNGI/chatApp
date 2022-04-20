@@ -81,22 +81,36 @@ const UsersList = () => {
             userDetails.userId === chatData.recentChat.senderId
               ? chatData.recentChat.receiverId
               : chatData.recentChat.senderId;
-          const response = await database()
-            .ref(`/users/${chatUserId2}`)
-            .once('value');
-          const userChatData = response.val();
-          chatListData.push({...chatData, id: data.key, userChatData});
-          setChatList(chatListData);
-        }
-        if (totalChatCount === index + 1) {
-          chatListData.sort((a, b) => {
-            return (
-              dayjs(b.recentChat.createdDate).unix() -
-              dayjs(a.recentChat.createdDate).unix()
-            );
+
+          chatListData.push({
+            ...chatData,
+            id: data.key,
+            chatUserId2,
           });
-          setChatList(chatListData);
-          setIsLoading(false);
+        }
+
+        if (totalChatCount === index + 1) {
+          let chatData = [];
+          chatListData.map(async (item, index) => {
+            const response = await database()
+              .ref(`/users/${item.chatUserId2}`)
+              .once('value');
+            const userChatData = response.val();
+
+            chatData.push({...item, userChatData: userChatData});
+
+            if (chatListData.length === index + 1) {
+              chatData.sort((a, b) => {
+                return (
+                  dayjs(b.recentChat.createdDate).unix() -
+                  dayjs(a.recentChat.createdDate).unix()
+                );
+              });
+              console.log('ne');
+              setChatList(chatData);
+              setIsLoading(false);
+            }
+          });
         }
       });
     } else {

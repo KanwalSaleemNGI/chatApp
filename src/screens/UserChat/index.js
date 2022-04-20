@@ -49,7 +49,7 @@ const UserChat = ({navigation, route}) => {
   const [messageImageVisible, setMessageImageVisible] = useState(false);
 
   const userDetails = useSelector(state => state.auth.userDetails);
-  console.log('chat');
+
   const deviceToken = userDetails.deviceToken;
 
   const chatUserDetails = route.params;
@@ -201,8 +201,8 @@ const UserChat = ({navigation, route}) => {
         Alert.alert('', 'You can not select more than 1 image');
         return;
       } else {
-        setGalleryImage(response.assets);
-        setChatImages(response.assets);
+        setGalleryImage(response.assets[0]);
+        setChatImages(response.assets[0]);
         setImageVisible(true);
       }
       console.log(response.assets);
