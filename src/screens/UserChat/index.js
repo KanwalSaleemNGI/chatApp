@@ -124,7 +124,6 @@ const UserChat = ({navigation, route}) => {
       setImageVisible(false);
       setMessageImages([]);
       setIsLoading(false);
-      messageRef.current.blur();
     } catch (e) {
       console.log(e.message);
       Alert.alert('', e.message);

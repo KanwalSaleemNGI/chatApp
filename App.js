@@ -13,19 +13,22 @@ import Colors from './src/constants/Colors';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import {store, persistor} from './src/store/ConfigureStore';
+import {ReduxNetworkProvider} from 'react-native-offline';
 
 const App = () => {
   return (
     <Provider store={store}>
-      <PersistGate persistor={persistor}>
-        <PaperProvider
-          theme={{
-            ...DefaultTheme,
-            colors: {...DefaultTheme.colors, primary: Colors.primary},
-          }}>
-          <AppNavigationContainer />
-        </PaperProvider>
-      </PersistGate>
+      <ReduxNetworkProvider>
+        <PersistGate persistor={persistor}>
+          <PaperProvider
+            theme={{
+              ...DefaultTheme,
+              colors: {...DefaultTheme.colors, primary: Colors.primary},
+            }}>
+            <AppNavigationContainer />
+          </PaperProvider>
+        </PersistGate>
+      </ReduxNetworkProvider>
     </Provider>
   );
 };

@@ -106,7 +106,7 @@ const UsersList = () => {
                   dayjs(a.recentChat.createdDate).unix()
                 );
               });
-              console.log('ne');
+
               setChatList(chatData);
               setIsLoading(false);
             }

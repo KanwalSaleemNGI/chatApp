@@ -5,6 +5,7 @@ import authReducer from './reducers/auth';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import {persistStore, persistReducer} from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {reducer as network} from 'react-native-offline';
 
 const persistConfig = {
   key: 'root',
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   // auth: authReducer,
   auth: persistReducer(authPersistConfig, authReducer),
   // chat: chatReducer
+  network,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
