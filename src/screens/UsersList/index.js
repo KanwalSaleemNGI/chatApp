@@ -26,9 +26,8 @@ const placeholderImg = require('../../../assets/placeholder.jpg');
 const UsersList = () => {
   const navigation = useNavigation();
   const [chatList, setChatList] = useState([]);
-  const [searchList, setSearchList] = useState([]);
-  const [allUsers, setAllUsers] = useState([]);
-  const [searchUsers, setSearchUsers] = useState([]);
+  // const [allUsers, setAllUsers] = useState([]);
+
   const [isLoading, setIsLoading] = useState(true);
 
   const [search, setSearch] = useState('');
@@ -36,8 +35,11 @@ const UsersList = () => {
   const chatRef = database().ref(`chat`);
   const userDetails = useSelector(state => state.auth.userDetails);
 
+  const allUsers = useSelector(state => state.dashboard.allUsers);
+  const [searchUsers, setSearchUsers] = useState(allUsers);
+
   useEffect(() => {
-    getAllusers();
+    // getAllusers();
 
     chatRef.orderByValue().on('value', fetchChats);
     return () => {
@@ -118,21 +120,21 @@ const UsersList = () => {
     }
   };
 
-  const getAllusers = async () => {
-    const response = await database().ref(`/users`).once('value');
-    const responseData = response.val();
-    const allUsersData = [];
+  // const getAllusers = async () => {
+  //   const response = await database().ref(`/users`).once('value');
+  //   const responseData = response.val();
+  //   const allUsersData = [];
 
-    for (const key in responseData) {
-      allUsersData.push(responseData[key]);
-    }
-    const filteredUsers = allUsersData.filter(
-      item => item.userId !== userDetails.userId,
-    );
+  //   for (const key in responseData) {
+  //     allUsersData.push(responseData[key]);
+  //   }
+  //   const filteredUsers = allUsersData.filter(
+  //     item => item.userId !== userDetails.userId,
+  //   );
 
-    setAllUsers(filteredUsers);
-    setSearchUsers(filteredUsers);
-  };
+  //   setAllUsers(filteredUsers);
+  //   setSearchUsers(filteredUsers);
+  // };
 
   return isLoading ? (
     <ShowLoader />

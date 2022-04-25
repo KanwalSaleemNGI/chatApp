@@ -5,10 +5,10 @@ import {
   getUser,
   enableLoader,
   disableLoader,
-} from '../actions/auth';
+} from '../../actions/auth';
 import auth from '@react-native-firebase/auth';
 import {Alert} from 'react-native';
-import {ApiUrl} from '../../constants/ApiUrl';
+import {ApiUrl} from '../../../constants/ApiUrl';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   GoogleSignin,
@@ -25,6 +25,7 @@ import storage from '@react-native-firebase/storage';
 import database from '@react-native-firebase/database';
 import {useReducer} from 'react';
 import messaging from '@react-native-firebase/messaging';
+import {getAllUsersAsync} from '../dashboard/chat';
 
 export const requestUserPermission = () => {
   return async dispatch => {
@@ -274,13 +275,15 @@ const getUserDetails = async (dispatch, userId) => {
     const userDetails = response.val();
     if (userDetails.userId) {
       dispatch(getUser(userDetails));
+      dispatch(getAllUsersAsync(userDetails.userId));
+    } else {
+      dispatch(disableLoader());
     }
   } catch (e) {
     console.log(e);
     Alert.alert('', e.message);
     dispatch(disableLoader());
   }
-  dispatch(disableLoader());
 };
 
 export const logOutHandler = userDetails => {

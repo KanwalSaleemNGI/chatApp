@@ -1,7 +1,12 @@
 import {Alert} from 'react-native';
-import {getUser, enableLoader, disableLoader} from '../actions/auth';
+import {
+  getUser,
+  enableLoader,
+  disableLoader,
+  getData,
+} from '../../actions/auth';
 import {useSelector} from 'react-redux';
-import {ApiUrl} from '../../constants/ApiUrl';
+import {ApiUrl} from '../../../constants/ApiUrl';
 import storage from '@react-native-firebase/storage';
 import database from '@react-native-firebase/database';
 
@@ -42,6 +47,18 @@ export const editProfileHandler = (
       dispatch(disableLoader());
     }
   };
+};
+
+export const getDataHandler = () => {
+  async function fetchData(dispatch) {
+    console.log('dispatch async');
+  }
+
+  fetchData.interceptInOffline = true;
+  fetchData.meta = {
+    retry: true,
+  };
+  return fetchData;
 };
 
 const updateUserDetails = async (dispatch, userData, profileSuccessHandler) => {

@@ -1,7 +1,13 @@
-export const logout = () => ({type: 'LOGOUT'});
+import Actions from '../../constants/Actions';
 
-export const getUser = userDetails => ({type: 'GETUSER', userDetails});
+export const getUser = userDetails => ({type: Actions.getUser, userDetails});
 
-export const enableLoader = () => ({type: 'ENABLELOADER'});
+export const logout = () => ({type: Actions.logout});
 
-export const disableLoader = () => ({type: 'DISABLELOADER'});
+export const getData = () => ({
+  type: 'GETDATA',
+});
+
+export const enableLoader = () => ({type: Actions.enableLoader});
+
+export const disableLoader = () => ({type: Actions.disableLoader});

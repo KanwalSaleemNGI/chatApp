@@ -12,7 +12,10 @@ import {
 } from 'react-native';
 import {useForm} from 'react-hook-form';
 import {AuthButton, Input, ShowLoader} from '../../components';
-import {signUpHandler, logOutHandler} from '../../store/actionCreators/auth';
+import {
+  signUpHandler,
+  logOutHandler,
+} from '../../store/actionCreators/auth/auth';
 import {useDispatch, useSelector} from 'react-redux';
 import ImagePicker from '../../components/ImagePicker';
 import styles from './style';

@@ -14,7 +14,7 @@ import {
 import Colors from '../../constants/Colors';
 import {useForm} from 'react-hook-form';
 import {AuthButton, ShowLoader, Input, ImagePicker} from '../../components';
-import {editProfileHandler} from '../../store/actionCreators/dashboard';
+import {editProfileHandler} from '../../store/actionCreators/dashboard/dashboard';
 import {useDispatch, useSelector} from 'react-redux';
 import storage from '@react-native-firebase/storage';
 import styles from './style';

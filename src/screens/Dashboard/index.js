@@ -19,10 +19,11 @@ import {useFocusEffect} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {AuthButton} from '../../components';
 import Colors from '../../constants/Colors';
-import {logOutHandler} from '../../store/actionCreators/auth';
+import {logOutHandler} from '../../store/actionCreators/auth/auth';
 import {useDispatch} from 'react-redux';
 import {useSelector} from 'react-redux';
 import styles from './style';
+import {getDataHandler} from '../../store/actionCreators/dashboard/dashboard';
 
 const selectionOptions = [
   {
@@ -44,12 +45,6 @@ const Dashboard = ({navigation}) => {
   const dispatch = useDispatch();
   const [selected, setSelectedItem] = useState('');
   const userDetails = useSelector(state => state.auth.userDetails);
-
-  useFocusEffect(
-    useCallback(() => {
-      setSelectedItem('');
-    }, []),
-  );
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -76,6 +71,13 @@ const Dashboard = ({navigation}) => {
   }, []);
   return (
     <View style={styles.screen} testID="dashboardView">
+      <TouchableOpacity
+        onPress={() => {
+          dispatch(getDataHandler()),
+            console.log('network status:', isConnected, actionQueue);
+        }}>
+        <Text>press</Text>
+      </TouchableOpacity>
       <View style={styles.infoContainer}>
         {selectionOptions.map(option => (
           <TouchableOpacity
@@ -87,7 +89,11 @@ const Dashboard = ({navigation}) => {
               navigation.navigate(option.route);
             }}
             activeOpacity={0.8}>
-            <Icon name={option.icon} color={Colors.black} size={30} />
+            <Icon
+              name={option.icon}
+              color={selected === option.name ? Colors.primary : Colors.black}
+              size={30}
+            />
             <Text
               style={[
                 styles.title,

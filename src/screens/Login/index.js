@@ -20,7 +20,7 @@ import {
   loginHandler,
   googleSignInHandler,
   fbSignInHandler,
-} from '../../store/actionCreators/auth';
+} from '../../store/actionCreators/auth/auth';
 import {useDispatch, useSelector} from 'react-redux';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import styles from './style';
