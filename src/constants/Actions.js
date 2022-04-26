@@ -5,4 +5,6 @@ export default {
   disableLoader: 'DISABLELOADER',
   getAllChats: 'GETALLCHATS',
   getAllUsers: 'GETALLUSERS',
+  createNewChat: 'CREATENEWCHAT',
+  createNewMessage: 'CREATENEWMESSAGE',
 };

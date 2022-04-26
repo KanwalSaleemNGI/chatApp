@@ -14,23 +14,22 @@ const persistConfig = {
   // blacklist: ['chat']  => the name of the blacklist is the key of the reducer If you don’t want to persist a part of your state you could put it in the blacklist.
   //whitelist: ['auth'] //The whitelist is set up in the same way as the blacklist except that it defines the parts of state that you do want to persist.
   blacklist: ['auth', 'dashboard'],
-  // whitelist: ['auth']
 };
 
 const authPersistConfig = {
   key: 'auth',
   storage: AsyncStorage,
-  // nested whitelist in the blacklist
   whitelist: ['userDetails'],
+  blacklist: ['isLoading'],
 };
 
 const dashboardPersistConfig = {
   key: 'dashboard',
   storage: AsyncStorage,
+  whitelist: ['allChats', 'allUsers'],
 };
 
 const rootReducer = combineReducers({
-  // auth: authReducer,
   auth: persistReducer(authPersistConfig, authReducer),
   dashboard: persistReducer(dashboardPersistConfig, dashboardReducer),
   network,

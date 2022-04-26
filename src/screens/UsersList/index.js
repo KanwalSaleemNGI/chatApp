@@ -26,27 +26,44 @@ const placeholderImg = require('../../../assets/placeholder.jpg');
 const UsersList = () => {
   const navigation = useNavigation();
   const [chatList, setChatList] = useState([]);
-  // const [allUsers, setAllUsers] = useState([]);
-
-  const [isLoading, setIsLoading] = useState(true);
-
   const [search, setSearch] = useState('');
   const searchRef = useRef();
   const chatRef = database().ref(`chat`);
   const userDetails = useSelector(state => state.auth.userDetails);
-
   const allUsers = useSelector(state => state.dashboard.allUsers);
   const [searchUsers, setSearchUsers] = useState(allUsers);
 
+  const allChats = useSelector(state => state.dashboard.allChats);
+
+  useEffect(() => {}, []);
   useEffect(() => {
+    if (allChats.length > 0) {
+      let chatListData = [];
+
+      allChats.map(chat => {
+        if (chat.messages.length > 0) {
+          chatListData.push(chat);
+        }
+      });
+
+      chatListData.sort((a, b) => {
+        return (
+          dayjs(b.recentChat.createdDate).unix() -
+          dayjs(a.recentChat.createdDate).unix()
+        );
+      });
+
+      setChatList(chatListData);
+    }
+
     // getAllusers();
 
-    chatRef.orderByValue().on('value', fetchChats);
-    return () => {
-      setSearch('');
-      chatRef.off();
-    };
-  }, []);
+    // chatRef.orderByValue().on('value', fetchChats);
+    // return () => {
+    //   setSearch('');
+    //   chatRef.off();
+    // };
+  }, [allChats]);
 
   const searchHandler = value => {
     setSearch(value);
@@ -110,13 +127,10 @@ const UsersList = () => {
               });
 
               setChatList(chatData);
-              setIsLoading(false);
             }
           });
         }
       });
-    } else {
-      setIsLoading(false);
     }
   };
 
@@ -136,9 +150,7 @@ const UsersList = () => {
   //   setSearchUsers(filteredUsers);
   // };
 
-  return isLoading ? (
-    <ShowLoader />
-  ) : (
+  return (
     <View style={styles.screen} testID="usersListView">
       <View style={styles.searchUserContainer}>
         <TextInput

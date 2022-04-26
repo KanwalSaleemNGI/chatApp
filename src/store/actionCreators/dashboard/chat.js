@@ -85,6 +85,7 @@ export const getAllUsersAsync = userId => {
       const filteredUsers = allUsersData.filter(item => item.userId !== userId);
 
       dispatch(getAllUsers(filteredUsers));
+      dispatch(disableLoader());
     } catch (e) {
       console.log(e);
       Alert.alert('', e.message);

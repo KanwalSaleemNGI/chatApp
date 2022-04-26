@@ -12,10 +12,7 @@ import {
   Text,
   TextInput,
   Alert,
-  PermissionsAndroid,
   FlatList,
-  KeyboardAvoidingView,
-  TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
 import {
@@ -28,12 +25,14 @@ import Colors from '../../constants/Colors';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {createIconSetFromFontello} from 'react-native-vector-icons';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import database from '@react-native-firebase/database';
 import styles from './style';
 import messaging from '@react-native-firebase/messaging';
 import dayjs from 'dayjs';
 import storage from '@react-native-firebase/storage';
+import {createNewChat, createNewMessage} from '../../store/actions/dashboard';
+import uuid from 'react-native-uuid';
 
 const placeholderImg = require('../../../assets/placeholder.jpg');
 
@@ -45,16 +44,16 @@ const UserChat = ({navigation, route}) => {
   const [messageImages, setMessageImages] = useState([]);
   const [chatImages, setChatImages] = useState([]);
   const [imageVisible, setImageVisible] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [messageImageVisible, setMessageImageVisible] = useState(false);
+  const messageRef = useRef();
 
+  const dispatch = useDispatch();
   const userDetails = useSelector(state => state.auth.userDetails);
+  const allChats = useSelector(state => state.dashboard.allChats);
+  const allUsers = useSelector(state => state.dashboard.allUsers);
 
   const deviceToken = userDetails.deviceToken;
-
   const chatUserDetails = route.params;
-
-  const messageRef = useRef();
 
   const chatId = [userDetails.userId, chatUserDetails.userId].sort().join('_');
   const chatRef = database().ref(`chat/${chatId}/messages`);
@@ -63,8 +62,7 @@ const UserChat = ({navigation, route}) => {
     setMessage(text);
   };
 
-  const messageHandler = async (messageType, images) => {
-    setIsLoading(true);
+  const messageHandler = (messageType, images) => {
     const date = new Date();
     const createdDate = date.toString();
 
@@ -75,14 +73,24 @@ const UserChat = ({navigation, route}) => {
             senderId: userDetails.userId,
             receiverId: chatUserDetails.userId,
             createdDate,
+            id: uuid.v4(),
           }
         : {
             images: images,
             senderId: userDetails.userId,
             receiverId: chatUserDetails.userId,
             createdDate,
+            id: uuid.v4(),
           };
 
+    dispatch(createNewMessage(messageData, chatId));
+    setMessage('');
+    setImageVisible(false);
+    setMessageImages([]);
+    sendMessageRequest(messageData, messageType, images);
+  };
+
+  const sendMessageRequest = async (messageData, messageType, images) => {
     try {
       await database().ref(`/chat/${chatId}/messages`).push().set(messageData);
 
@@ -119,11 +127,6 @@ const UserChat = ({navigation, route}) => {
         },
       );
       const responseData = await resposne.json();
-
-      setMessage('');
-      setImageVisible(false);
-      setMessageImages([]);
-      setIsLoading(false);
     } catch (e) {
       console.log(e.message);
       Alert.alert('', e.message);
@@ -218,10 +221,20 @@ const UserChat = ({navigation, route}) => {
   };
 
   useEffect(() => {
-    chatRef.orderByValue().on('value', getUserChat);
-
-    return () => chatRef.off();
-  }, []);
+    const allChatIds = allChats.map(item => item.id);
+    if (allChatIds.includes(chatId)) {
+      const chat = allChats.filter(chat => chat.id === chatId);
+      setUserChat(chat[0]?.messages.reverse());
+    } else {
+      let userChatData;
+      allUsers.map(user => {
+        if (user.userId === chatUserDetails.userId) {
+          userChatData = user;
+        }
+      });
+      dispatch(createNewChat(chatId, userChatData));
+    }
+  }, [allChats]);
 
   const ImageViewerFooter = () => {
     return (
@@ -235,9 +248,7 @@ const UserChat = ({navigation, route}) => {
     );
   };
 
-  return isLoading ? (
-    <ShowLoader />
-  ) : (
+  return (
     <View style={styles.screen} testID="userChatView">
       <UserChatHeader chatUserDetails={chatUserDetails} />
       <ImageViewer
