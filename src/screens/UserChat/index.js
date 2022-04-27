@@ -223,8 +223,13 @@ const UserChat = ({navigation, route}) => {
     const allChatIds = allChats.map(item => item.id);
     if (allChatIds.includes(chatId)) {
       const chat = allChats.filter(chat => chat.id === chatId);
-      console.log('m');
-      setUserChat(chat[0]?.messages);
+      const messages = chat[0]?.messages;
+
+      messages.sort((a, b) => {
+        return dayjs(b.createdDate).unix() - dayjs(a.createdDate).unix();
+      });
+
+      setUserChat(messages);
     } else {
       let userChatData;
       allUsers.map(user => {
