@@ -119,7 +119,6 @@ const UserChat = ({navigation, route}) => {
               data: {},
               notification: {
                 body: message,
-
                 title: `${chatUserDetails.firstName}${chatUserDetails.lastName}`,
               },
             },
@@ -224,7 +223,8 @@ const UserChat = ({navigation, route}) => {
     const allChatIds = allChats.map(item => item.id);
     if (allChatIds.includes(chatId)) {
       const chat = allChats.filter(chat => chat.id === chatId);
-      setUserChat(chat[0]?.messages.reverse());
+      console.log('m');
+      setUserChat(chat[0]?.messages);
     } else {
       let userChatData;
       allUsers.map(user => {

@@ -25,7 +25,7 @@ import storage from '@react-native-firebase/storage';
 import database from '@react-native-firebase/database';
 import {useReducer} from 'react';
 import messaging from '@react-native-firebase/messaging';
-import {getAllUsersAsync} from '../dashboard/chat';
+import {getAllUsersAsync, getAllChatsAsync} from '../dashboard/chat';
 
 export const requestUserPermission = () => {
   return async dispatch => {
@@ -274,8 +274,9 @@ const getUserDetails = async (dispatch, userId) => {
 
     const userDetails = response.val();
     if (userDetails.userId) {
-      dispatch(getUser(userDetails));
       dispatch(getAllUsersAsync(userDetails.userId));
+      dispatch(getAllChatsAsync(userDetails.userId));
+      dispatch(getUser(userDetails));
     } else {
       dispatch(disableLoader());
     }

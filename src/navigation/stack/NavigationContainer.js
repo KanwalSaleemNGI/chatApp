@@ -11,7 +11,10 @@ import messaging from '@react-native-firebase/messaging';
 import {Alert, View, Text, TouchableOpacity} from 'react-native';
 import NotificationPopup from 'react-native-push-notification-popup';
 import {CustomPopUp} from '../../components';
-import {getAllUsersAsync} from '../../store/actionCreators/dashboard/chat';
+import {
+  getAllUsersAsync,
+  getAllChatsAsync,
+} from '../../store/actionCreators/dashboard/chat';
 
 const AppNavigationContainer = () => {
   const dispatch = useDispatch();
@@ -31,7 +34,8 @@ const AppNavigationContainer = () => {
 
   useEffect(() => {
     if (userDetails?.userId) {
-      dispatch(getAllUsersAsync(userDetails?.userId));
+      dispatch(getAllUsersAsync(userDetails.userId));
+      dispatch(getAllChatsAsync(userDetails.userId));
     }
     dispatch(requestUserPermission());
     const unsubscribe = messaging().onMessage(async remoteMessage => {

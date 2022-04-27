@@ -24,6 +24,7 @@ import {useDispatch} from 'react-redux';
 import {useSelector} from 'react-redux';
 import styles from './style';
 import {getDataHandler} from '../../store/actionCreators/dashboard/dashboard';
+import useNetworkInfo from '../../hooks/useNetworkInfo';
 
 const selectionOptions = [
   {
@@ -45,6 +46,8 @@ const Dashboard = ({navigation}) => {
   const dispatch = useDispatch();
   const [selected, setSelectedItem] = useState('');
   const userDetails = useSelector(state => state.auth.userDetails);
+
+  const {isConnected, actionQueue} = useNetworkInfo();
 
   useLayoutEffect(() => {
     navigation.setOptions({

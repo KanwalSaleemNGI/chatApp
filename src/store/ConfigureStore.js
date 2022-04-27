@@ -7,6 +7,7 @@ import {composeWithDevTools} from 'redux-devtools-extension';
 import {persistStore, persistReducer} from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {reducer as network} from 'react-native-offline';
+import {createNetworkMiddleware} from 'react-native-offline';
 
 const persistConfig = {
   key: 'root',
@@ -36,10 +37,13 @@ const rootReducer = combineReducers({
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
+const networkMiddleware = createNetworkMiddleware({
+  queueReleaseThrottle: 200,
+});
 
 export const store = createStore(
   persistedReducer,
-  composeWithDevTools(applyMiddleware(ReduxThunk)),
+  composeWithDevTools(applyMiddleware(networkMiddleware, ReduxThunk)),
 );
 
 export const persistor = persistStore(store);
