@@ -49,18 +49,6 @@ export const editProfileHandler = (
   };
 };
 
-export const getDataHandler = () => {
-  async function fetchData(dispatch) {
-    console.log('dispatch async');
-  }
-
-  fetchData.interceptInOffline = true;
-  fetchData.meta = {
-    retry: true,
-  };
-  return fetchData;
-};
-
 const updateUserDetails = async (dispatch, userData, profileSuccessHandler) => {
   try {
     const response = await database()

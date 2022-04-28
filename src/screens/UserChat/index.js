@@ -32,6 +32,7 @@ import messaging from '@react-native-firebase/messaging';
 import dayjs from 'dayjs';
 import storage from '@react-native-firebase/storage';
 import {createNewChat, createNewMessage} from '../../store/actions/dashboard';
+import {sendMessageAsync} from '../../store/actionCreators/dashboard/chat';
 import uuid from 'react-native-uuid';
 
 const placeholderImg = require('../../../assets/placeholder.jpg');
@@ -84,10 +85,21 @@ const UserChat = ({navigation, route}) => {
           };
 
     dispatch(createNewMessage(messageData, chatId));
+
+    const messageInfo = {
+      messageData,
+      messageType,
+      images,
+      chatId,
+      deviceToken,
+      chatUserDetails,
+      userDetails,
+    };
+    dispatch(sendMessageAsync(messageInfo));
     setMessage('');
     setImageVisible(false);
     setMessageImages([]);
-    sendMessageRequest(messageData, messageType, images);
+    // sendMessageRequest(messageData, messageType, images);
   };
 
   const sendMessageRequest = async (messageData, messageType, images) => {
@@ -129,7 +141,6 @@ const UserChat = ({navigation, route}) => {
     } catch (e) {
       console.log(e.message);
       Alert.alert('', e.message);
-      setIsLoading(false);
     }
   };
 
@@ -304,7 +315,7 @@ const UserChat = ({navigation, route}) => {
         <View style={styles.sendContainer}>
           {message ? (
             <TouchableOpacity
-              onPress={messageHandler.bind(this, 'text')}
+              onPress={messageHandler.bind(this, 'text', chatImages)}
               activeOpacity={0.6}
               testID="sendMessageButton">
               <Icon name="send" color={Colors.primary} size={30} />

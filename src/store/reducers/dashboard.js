@@ -54,6 +54,13 @@ const dashboardReducer = (state = initialState, action) => {
       };
     }
 
+    case Actions.sendMessage: {
+      console.log('dispatch message send');
+      return {
+        ...state,
+      };
+    }
+
     default:
       return state;
   }

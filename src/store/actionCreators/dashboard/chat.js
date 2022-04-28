@@ -1,7 +1,7 @@
 import {Alert} from 'react-native';
 import {dispatch} from 'jest-circus/build/state';
 import database from '@react-native-firebase/database';
-import {getAllUsers, getAllChats} from '../../actions/dashboard';
+import {getAllUsers, getAllChats, sendMessage} from '../../actions/dashboard';
 import {disableLoader, enableLoader} from '../../actions/auth';
 import dayjs from 'dayjs';
 import {initialWindowMetrics} from 'react-native-safe-area-context';
@@ -97,4 +97,72 @@ export const getAllChatsAsync = userId => {
       dispatch(disableLoader());
     }
   };
+};
+
+export const sendMessageAsync = messageInfo => {
+  async function sendMessageRequest(dispatch) {
+    const {
+      messageData,
+      messageType,
+      images,
+      chatId,
+      deviceToken,
+      chatUserDetails,
+      userDetails,
+    } = messageInfo;
+
+    // try {
+    const messageRes = await database()
+      .ref(`/chat/${chatId}/messages`)
+      .push()
+      .set(messageData);
+
+    const chatRes = await database()
+      .ref(`/chat/${chatId}`)
+      .update({
+        recentChat: {
+          ...messageData,
+          senderDeviceToken: deviceToken,
+          receiverDeviceToken: chatUserDetails.deviceToken,
+        },
+      });
+    console.log('messageRes:', messageRes, 'chatRes', chatRes);
+
+    //send notification to firebase
+
+    // const resposne = await fetch(
+    //   'https://fcm.googleapis.com/v1/projects/chatapp-10719/messages:send',
+    //   {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //       Authorization:
+    //         'Bearer ya29.A0ARrdaM-33jUWm3fwo2PAzU0r5cKo6XtS29knumAF_SGl4Zcae6s7fKzGsQWjHrxdQ0EtNcdZkoy0-AH8lp_kiOgXdLPvWdUclcyGz5Z0ehl4-mxVKqhwttFJiBCocmZSJb88IecAFVq00EhdDnOAf1xmuExE',
+    //     },
+    //     body: JSON.stringify({
+    //       message: {
+    //         token: userDetails.deviceToken,
+    //         data: {},
+    //         notification: {
+    //           body: messageData?.text,
+    //           title: `${chatUserDetails.firstName}${chatUserDetails.lastName}`,
+    //         },
+    //       },
+    //     }),
+    //   },
+    // );
+    // const responseData = await resposne.json();
+    // } catch (e) {
+    //   console.log(e.message);
+    //   Alert.alert('', e.message);
+    // }
+  }
+
+  sendMessageRequest.interceptInOffline = true;
+  sendMessageRequest.meta = {
+    retry: true,
+    name: 'sendMessageAsync',
+    args: [messageInfo],
+  };
+  return sendMessageRequest;
 };

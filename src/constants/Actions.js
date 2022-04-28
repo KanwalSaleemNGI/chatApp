@@ -7,4 +7,5 @@ export default {
   getAllUsers: 'GETALLUSERS',
   createNewChat: 'CREATENEWCHAT',
   createNewMessage: 'CREATENEWMESSAGE',
+  sendMessage: 'SENDMESSAGE',
 };

@@ -9,11 +9,6 @@ const authReducer = (state = initialState, action) => {
       // do something in your reducer
       return state;
     }
-    case Actions.getData: {
-      return {
-        ...state,
-      };
-    }
 
     case Actions.getUser: {
       return {

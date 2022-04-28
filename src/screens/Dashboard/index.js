@@ -23,8 +23,6 @@ import {logOutHandler} from '../../store/actionCreators/auth/auth';
 import {useDispatch} from 'react-redux';
 import {useSelector} from 'react-redux';
 import styles from './style';
-import {getDataHandler} from '../../store/actionCreators/dashboard/dashboard';
-import useNetworkInfo from '../../hooks/useNetworkInfo';
 
 const selectionOptions = [
   {
@@ -46,8 +44,6 @@ const Dashboard = ({navigation}) => {
   const dispatch = useDispatch();
   const [selected, setSelectedItem] = useState('');
   const userDetails = useSelector(state => state.auth.userDetails);
-
-  const {isConnected, actionQueue} = useNetworkInfo();
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -72,15 +68,9 @@ const Dashboard = ({navigation}) => {
       },
     });
   }, []);
+
   return (
     <View style={styles.screen} testID="dashboardView">
-      <TouchableOpacity
-        onPress={() => {
-          dispatch(getDataHandler()),
-            console.log('network status:', isConnected, actionQueue);
-        }}>
-        <Text>press</Text>
-      </TouchableOpacity>
       <View style={styles.infoContainer}>
         {selectionOptions.map(option => (
           <TouchableOpacity

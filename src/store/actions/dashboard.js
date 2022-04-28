@@ -13,3 +13,7 @@ export const createNewMessage = (message, chatId) => ({
   chatId,
   message,
 });
+
+export const sendMessage = () => ({
+  type: Actions.sendMessage,
+});
