@@ -128,6 +128,8 @@ export const sendMessageAsync = messageInfo => {
       });
     console.log('messageRes:', messageRes, 'chatRes', chatRes);
 
+    dispatch(getAllChatsAsync(userDetails.userId));
+
     //send notification to firebase
 
     // const resposne = await fetch(

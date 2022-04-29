@@ -6,7 +6,10 @@ import dashboardReducer from './reducers/dashboard';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import {persistStore, persistReducer, createTransform} from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {reducer as network} from 'react-native-offline';
+import {
+  reducer as network,
+  createReducer as createNetworkReducer,
+} from 'react-native-offline';
 import {createNetworkMiddleware} from 'react-native-offline';
 import {sendMessageAsync} from './actionCreators/dashboard/chat';
 
@@ -78,10 +81,15 @@ const dashboardPersistConfig = {
   whitelist: ['allChats', 'allUsers'],
 };
 
+const comparisonFn = (action, actionQueue) => {
+  console.log('action:', action, 'actionQueue:', actionQueue);
+};
+
 const rootReducer = combineReducers({
   auth: persistReducer(authPersistConfig, authReducer),
   dashboard: persistReducer(dashboardPersistConfig, dashboardReducer),
-  network,
+  // network,
+  network: createNetworkReducer(comparisonFn),
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
