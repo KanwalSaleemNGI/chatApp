@@ -3,10 +3,13 @@ import ImageView from 'react-native-image-viewing';
 import {View} from 'react-native';
 
 const ImageViewer = props => {
-  const images = props.messageImages.map(image => ({
-    uri: image.uri,
-  }));
-
+  const images =
+    props.messageImages.length > 0
+      ? props.messageImages.map(image => ({
+          uri: image.uri,
+        }))
+      : [];
+  console.log('images', images);
   return (
     <ImageView
       images={images}

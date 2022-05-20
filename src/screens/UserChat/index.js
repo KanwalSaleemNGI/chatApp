@@ -145,27 +145,26 @@ const UserChat = ({navigation, route}) => {
   };
 
   const imageMessageHandler = () => {
-    setIsLoading(true);
+    console.log(chatImages);
+    // setIsLoading(true);
     let newChatImages = [];
     try {
-      chatImages.map(async (image, index) => {
+      chatImages?.map(async (image, index) => {
         const imageBucketPath = `/Assets/Images/chat/${image?.fileName}`;
         const reference = storage().ref(imageBucketPath);
-
         const response = await reference.putFile(image?.uri);
         const url = await storage()
           .ref(`/Assets/Images/chat/${image.fileName}`)
           .getDownloadURL();
         newChatImages.push({uri: url});
-
         if (messageImages.length === index + 1) {
-          messageHandler('images', newChatImages);
+          // messageHandler('images', newChatImages);
         }
       });
     } catch (e) {
       console.log(e);
       Alert.alert('', e.message);
-      setIsLoading(false);
+      // setIsLoading(false);
     }
   };
 
@@ -183,12 +182,16 @@ const UserChat = ({navigation, route}) => {
           {text: 'Cancel', style: 'cancel'},
         ]);
       }
-      console.log(response.assets);
-      const cameraMesageImages = cameraImage;
-      response.assets &&
-        setCameraImage(prev => prev.concat(response.assets[0]));
+      // console.log(response.assets);
+      // let cameraMesageImages = cameraImage;
+      // response.assets &&
+      //   setCameraImage(prev => prev.concat(response.assets[0]));
+      // console.log(cameraImage);
+      // setChatImages(cameraMesageImages.concat(response.assets[0]));
 
-      setChatImages(cameraMesageImages.concat(response.assets[0]));
+      setCameraImage([response.assets[0]]);
+
+      setChatImages([response.assets[0]]);
       setImageVisible(true);
     });
   };
@@ -198,8 +201,8 @@ const UserChat = ({navigation, route}) => {
       mediaType: 'photo',
       includeBase64: false,
       includeExtra: true,
-      // selectionLimit: 5,
-      selectionLimit: 1,
+      selectionLimit: 5,
+      // selectionLimit: 1,
     };
 
     launchImageLibrary(options, response => {
@@ -213,11 +216,14 @@ const UserChat = ({navigation, route}) => {
         Alert.alert('', 'You can not select more than 1 image');
         return;
       } else {
-        setGalleryImage(response.assets[0]);
-        setChatImages(response.assets[0]);
+        const galleryMesageImages = galleryImage;
+        // setGalleryImage(prev => prev.concat(response.assets[0]));
+        // setChatImages(galleryMesageImages.concat(response.assets[0]));
+
+        setGalleryImage(response.assets);
+        setChatImages(response.assets);
         setImageVisible(true);
       }
-      console.log(response.assets);
     });
   };
 
@@ -255,7 +261,7 @@ const UserChat = ({navigation, route}) => {
   const ImageViewerFooter = () => {
     return (
       <TouchableOpacity
-        onPress={imageMessageHandler}
+        // onPress={imageMessageHandler}
         style={styles.sendContainer}
         activeOpacity={0.6}
         testID="sendMessageButton">
@@ -267,36 +273,36 @@ const UserChat = ({navigation, route}) => {
   return (
     <View style={styles.screen} testID="userChatView">
       <UserChatHeader chatUserDetails={chatUserDetails} />
+
       <ImageViewer
         visible={imageVisible}
         setVisible={setImageVisible}
         messageImages={chatImages}
         footer={ImageViewerFooter}
       />
+
       <ImageViewer
         visible={messageImageVisible}
         setVisible={setMessageImageVisible}
         messageImages={messageImages}
       />
 
-      {!imageVisible && !messageImageVisible && (
-        <FlatList
-          style={styles.userChatContainer}
-          scrollEnabled
-          initialNumToRender={5}
-          data={userChat}
-          keyExtractor={item => item.id}
-          inverted
-          renderItem={({item}) => (
-            <Message
-              item={item}
-              userId={userDetails.userId}
-              setMessageImageVisible={setMessageImageVisible}
-              setMessageImages={setMessageImages}
-            />
-          )}
-        />
-      )}
+      <FlatList
+        style={styles.userChatContainer}
+        scrollEnabled
+        initialNumToRender={5}
+        data={userChat}
+        keyExtractor={item => item.id}
+        inverted
+        renderItem={({item}) => (
+          <Message
+            item={item}
+            userId={userDetails.userId}
+            setMessageImageVisible={setMessageImageVisible}
+            setMessageImages={setMessageImages}
+          />
+        )}
+      />
 
       <View style={styles.searchUserContainer}>
         <TextInput
