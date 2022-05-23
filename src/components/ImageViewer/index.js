@@ -1,6 +1,5 @@
 import React from 'react';
 import ImageView from 'react-native-image-viewing';
-import {View} from 'react-native';
 
 const ImageViewer = props => {
   const images =

@@ -1,15 +1,6 @@
-import React, {useEffect} from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  Alert,
-  Keyboard,
-} from 'react-native';
-import {Card} from 'react-native-paper';
+import React from 'react';
+import {View, Text, TouchableOpacity, Image} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import storage from '@react-native-firebase/storage';
 import styles from './style';
 
 const UserInfo = ({item, resetHandler}) => {

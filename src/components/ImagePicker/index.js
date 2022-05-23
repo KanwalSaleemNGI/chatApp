@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  Alert,
-  PermissionsAndroid,
-} from 'react-native';
+import {View, Text, Image, TouchableOpacity, Alert} from 'react-native';
 import Colors from '../../constants/Colors';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {Modal, Portal, Button} from 'react-native-paper';
@@ -14,7 +7,7 @@ import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import styles from './style';
 
 const ImagePicker = props => {
-  const {photo, setPhoto, imageModal, setImageModal, setImagePath} = props;
+  const {photo, setPhoto, imageModal, setImageModal} = props;
 
   // const requestCameraPermission = async () => {
   //   try {

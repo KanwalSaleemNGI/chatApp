@@ -1,47 +1,28 @@
-import React, {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useState,
-  useRef,
-} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {
   View,
-  StyleSheet,
   TouchableOpacity,
-  Text,
   TextInput,
   Alert,
   FlatList,
   Keyboard,
 } from 'react-native';
-import {
-  UserChatHeader,
-  Message,
-  ImageViewer,
-  ShowLoader,
-} from '../../components';
+import {UserChatHeader, Message, ImageViewer} from '../../components';
 import Colors from '../../constants/Colors';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-import {createIconSetFromFontello} from 'react-native-vector-icons';
 import {useSelector, useDispatch} from 'react-redux';
 import database from '@react-native-firebase/database';
 import styles from './style';
-import messaging from '@react-native-firebase/messaging';
 import dayjs from 'dayjs';
 import storage from '@react-native-firebase/storage';
 import {createNewChat, createNewMessage} from '../../store/actions/dashboard';
 import {sendMessageAsync} from '../../store/actionCreators/dashboard/chat';
 import uuid from 'react-native-uuid';
 
-const placeholderImg = require('../../../assets/placeholder.jpg');
-
-const UserChat = ({navigation, route}) => {
+const UserChat = ({route}) => {
   const [userChat, setUserChat] = useState([]);
   const [message, setMessage] = useState('');
-  const [cameraImage, setCameraImage] = useState([]);
-  const [galleryImage, setGalleryImage] = useState([]);
   const [messageImages, setMessageImages] = useState([]);
   const [chatImages, setChatImages] = useState([]);
   const [imageVisible, setImageVisible] = useState(false);
@@ -57,7 +38,6 @@ const UserChat = ({navigation, route}) => {
   const chatUserDetails = route.params;
 
   const chatId = [userDetails.userId, chatUserDetails.userId].sort().join('_');
-  const chatRef = database().ref(`chat/${chatId}/messages`);
 
   const updateMessage = text => {
     setMessage(text);
@@ -152,7 +132,7 @@ const UserChat = ({navigation, route}) => {
       chatImages?.map(async (image, index) => {
         const imageBucketPath = `/Assets/Images/chat/${image?.fileName}`;
         const reference = storage().ref(imageBucketPath);
-        const response = await reference.putFile(image?.uri);
+        await reference.putFile(image?.uri);
         const url = await storage()
           .ref(`/Assets/Images/chat/${image.fileName}`)
           .getDownloadURL();
@@ -182,14 +162,6 @@ const UserChat = ({navigation, route}) => {
           {text: 'Cancel', style: 'cancel'},
         ]);
       }
-      // console.log(response.assets);
-      // let cameraMesageImages = cameraImage;
-      // response.assets &&
-      //   setCameraImage(prev => prev.concat(response.assets[0]));
-      // console.log(cameraImage);
-      // setChatImages(cameraMesageImages.concat(response.assets[0]));
-
-      setCameraImage([response.assets[0]]);
 
       setChatImages([response.assets[0]]);
       setImageVisible(true);
@@ -216,24 +188,10 @@ const UserChat = ({navigation, route}) => {
         Alert.alert('', 'You can not select more than 1 image');
         return;
       } else {
-        const galleryMesageImages = galleryImage;
-        // setGalleryImage(prev => prev.concat(response.assets[0]));
-        // setChatImages(galleryMesageImages.concat(response.assets[0]));
-
-        setGalleryImage(response.assets);
         setChatImages(response.assets);
         setImageVisible(true);
       }
     });
-  };
-
-  const getUserChat = snapshot => {
-    const chatDetails = [];
-    snapshot.forEach(data => {
-      chatDetails.push({...data.val(), id: data.key});
-    });
-
-    setUserChat(chatDetails.reverse());
   };
 
   useEffect(() => {
@@ -256,7 +214,7 @@ const UserChat = ({navigation, route}) => {
       });
       dispatch(createNewChat(chatId, userChatData));
     }
-  }, [allChats]);
+  }, [allChats, allUsers, chatId, chatUserDetails.userId, dispatch]);
 
   const ImageViewerFooter = () => {
     return (

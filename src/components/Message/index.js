@@ -1,21 +1,10 @@
-import React, {useEffect} from 'react';
-import {
-  View,
-  TouchableOpacity,
-  Text,
-  StyleSheet,
-  Image,
-  ImageBackground,
-} from 'react-native';
+import React from 'react';
+import {View, TouchableOpacity, Text, ImageBackground} from 'react-native';
 import dayjs from 'dayjs';
 import styles from './style';
-import storage from '@react-native-firebase/storage';
-import {useNavigation} from '@react-navigation/native';
 
 const Message = props => {
   const {item, userId, setMessageImageVisible, setMessageImages} = props;
-  const navigation = useNavigation();
-
   const date = dayjs(item.createdDate).format('DD/MM/YYYY,  hh:mm');
 
   return (

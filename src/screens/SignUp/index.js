@@ -1,27 +1,19 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, {useState, useRef} from 'react';
 import {
   View,
-  StyleSheet,
   Text,
   TouchableWithoutFeedback,
   Keyboard,
-  Image,
   TouchableOpacity,
   ScrollView,
-  Alert,
 } from 'react-native';
 import {useForm} from 'react-hook-form';
 import {AuthButton, Input, ShowLoader} from '../../components';
-import {
-  signUpHandler,
-  logOutHandler,
-} from '../../store/actionCreators/auth/auth';
+import {signUpHandler} from '../../store/actionCreators/auth/auth';
 import {useDispatch, useSelector} from 'react-redux';
 import ImagePicker from '../../components/ImagePicker';
 import styles from './style';
 import Colors from '../../constants/Colors';
-
-const placeholderPath = '../../../assets/images/placeholder.jpg';
 
 const SignUpForm = ({navigation}) => {
   const dispatch = useDispatch();
@@ -40,9 +32,6 @@ const SignUpForm = ({navigation}) => {
     handleSubmit,
     formState: {errors},
     register,
-    reset,
-    setError,
-    setValue,
   } = useForm();
 
   const firstName = register('firstName');

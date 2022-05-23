@@ -1,22 +1,16 @@
 import React, {useState, useRef, useEffect} from 'react';
 import {
-  View,
   Text,
   TouchableWithoutFeedback,
   Keyboard,
-  Image,
-  TouchableOpacity,
   ScrollView,
-  Alert,
-  KeyboardAvoidingView,
-  Platform,
 } from 'react-native';
-import Colors from '../../constants/Colors';
+
 import {useForm} from 'react-hook-form';
 import {AuthButton, ShowLoader, Input, ImagePicker} from '../../components';
 import {editProfileHandler} from '../../store/actionCreators/dashboard/dashboard';
 import {useDispatch, useSelector} from 'react-redux';
-import storage from '@react-native-firebase/storage';
+
 import styles from './style';
 
 const MyProfile = ({navigation}) => {
@@ -32,18 +26,12 @@ const MyProfile = ({navigation}) => {
   const emailRef = useRef();
   const phoneNumberRef = useRef();
 
-  const popupRef = useRef();
-
-  let userImg;
-
   const {
     control,
     handleSubmit,
     formState: {errors},
     register,
     reset,
-    setError,
-    // setValue,
   } = useForm();
 
   const firstName = register('firstName');
@@ -53,7 +41,7 @@ const MyProfile = ({navigation}) => {
 
   const onSubmit = data => {
     console.log(data);
-    // Alert.alert('', 'Hello');
+
     dispatch(
       editProfileHandler(data, userDetails, profileSuccessHandler, photo),
     );
@@ -228,7 +216,6 @@ const MyProfile = ({navigation}) => {
         </AuthButton>
       </ScrollView>
     </TouchableWithoutFeedback>
-    // </KeyboardAvoidingView>
   );
 };
 

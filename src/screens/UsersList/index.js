@@ -1,35 +1,24 @@
-import React, {useState, useRef, useEffect, useCallback} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {
   View,
   FlatList,
   TextInput,
   TouchableOpacity,
   Text,
-  TouchableWithoutFeedback,
   Keyboard,
-  KeyboardAvoidingView,
-  Platform,
-  Alert,
 } from 'react-native';
 import Colors from '../../constants/Colors';
-import {UserInfo, ChatInfo, ShowLoader} from '../../components';
+import {UserInfo, ChatInfo} from '../../components';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import database from '@react-native-firebase/database';
 import {useSelector} from 'react-redux';
-import {get} from 'react-hook-form';
 import dayjs from 'dayjs';
 import styles from './style';
-import {useNavigation} from '@react-navigation/native';
-
-const placeholderImg = require('../../../assets/placeholder.jpg');
 
 const UsersList = () => {
-  const navigation = useNavigation();
   const [chatList, setChatList] = useState([]);
   const [search, setSearch] = useState('');
   const searchRef = useRef();
-  const chatRef = database().ref(`chat`);
-  const userDetails = useSelector(state => state.auth.userDetails);
+
   const allUsers = useSelector(state => state.dashboard.allUsers);
   const [searchUsers, setSearchUsers] = useState(allUsers);
 
@@ -55,14 +44,6 @@ const UsersList = () => {
 
       setChatList(chatListData);
     }
-
-    // getAllusers();
-
-    // chatRef.orderByValue().on('value', fetchChats);
-    // return () => {
-    //   setSearch('');
-    //   chatRef.off();
-    // };
   }, [allChats]);
 
   const searchHandler = value => {
@@ -83,72 +64,6 @@ const UsersList = () => {
   const resetHandler = () => {
     setSearch('');
   };
-
-  const fetchChats = snapshot => {
-    const chatListData = [];
-
-    if (snapshot.val()) {
-      const totalChatCount = Object.keys(snapshot.val()).length;
-
-      snapshot.forEach(async (data, index) => {
-        const chatData = data.val();
-        if (
-          userDetails.userId === chatData?.recentChat?.senderId ||
-          userDetails.userId === chatData?.recentChat?.receiverId
-        ) {
-          const chatUserId2 =
-            userDetails.userId === chatData.recentChat.senderId
-              ? chatData.recentChat.receiverId
-              : chatData.recentChat.senderId;
-
-          chatListData.push({
-            ...chatData,
-            id: data.key,
-            chatUserId2,
-          });
-        }
-
-        if (totalChatCount === index + 1) {
-          let chatData = [];
-          chatListData.map(async (item, index) => {
-            const response = await database()
-              .ref(`/users/${item.chatUserId2}`)
-              .once('value');
-            const userChatData = response.val();
-
-            chatData.push({...item, userChatData: userChatData});
-
-            if (chatListData.length === index + 1) {
-              chatData.sort((a, b) => {
-                return (
-                  dayjs(b.recentChat.createdDate).unix() -
-                  dayjs(a.recentChat.createdDate).unix()
-                );
-              });
-
-              setChatList(chatData);
-            }
-          });
-        }
-      });
-    }
-  };
-
-  // const getAllusers = async () => {
-  //   const response = await database().ref(`/users`).once('value');
-  //   const responseData = response.val();
-  //   const allUsersData = [];
-
-  //   for (const key in responseData) {
-  //     allUsersData.push(responseData[key]);
-  //   }
-  //   const filteredUsers = allUsersData.filter(
-  //     item => item.userId !== userDetails.userId,
-  //   );
-
-  //   setAllUsers(filteredUsers);
-  //   setSearchUsers(filteredUsers);
-  // };
 
   return (
     <View style={styles.screen} testID="usersListView">

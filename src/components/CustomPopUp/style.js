@@ -1,4 +1,3 @@
-import {convertMultiFactorInfoToServerFormat} from 'firebase-admin/lib/auth/user-import-builder';
 import {StyleSheet} from 'react-native';
 import Colors from '../../constants/Colors';
 

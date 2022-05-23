@@ -65,7 +65,7 @@ export const MainNavigator = () => {
       screenOptions={defaultNavOptions}
       initialRouteName="dashboard">
       {screens.map(screen => {
-        return <MainStack.Screen {...screen} />;
+        return <MainStack.Screen {...screen} key={screen.key} />;
       })}
     </MainStack.Navigator>
   );

@@ -4,11 +4,9 @@ import {AuthNavigator} from './AuthNavigation';
 import {MainNavigator} from './MainNavigation';
 import {useSelector, useDispatch} from 'react-redux';
 import auth from '@react-native-firebase/auth';
-import {getUser, enableLoader, disableLoader} from '../../store/actions/auth';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import {requestUserPermission} from '../../store/actionCreators/auth/auth';
 import messaging from '@react-native-firebase/messaging';
-import {Alert, View, Text, TouchableOpacity} from 'react-native';
 import NotificationPopup from 'react-native-push-notification-popup';
 import {CustomPopUp} from '../../components';
 import {
@@ -19,7 +17,7 @@ import {
 const AppNavigationContainer = () => {
   const dispatch = useDispatch();
   const userDetails = useSelector(state => state.auth.userDetails);
-  const isLoading = useSelector(state => state.auth.isLoading);
+
   const [initializing, setInitializing] = useState(true);
   const popupRef = useRef();
 

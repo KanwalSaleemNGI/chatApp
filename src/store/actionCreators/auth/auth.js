@@ -1,29 +1,15 @@
-import {
-  login,
-  signUp,
-  logout,
-  getUser,
-  enableLoader,
-  disableLoader,
-} from '../../actions/auth';
+import {logout, getUser, enableLoader, disableLoader} from '../../actions/auth';
 import auth from '@react-native-firebase/auth';
 import {Alert} from 'react-native';
-import {ApiUrl} from '../../../constants/ApiUrl';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import {
   GoogleSignin,
-  GoogleSigninButton,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
-import {
-  LoginManager,
-  AccessToken,
-  GraphRequest,
-  GraphRequestManager,
-} from 'react-native-fbsdk-next';
+import {LoginManager, AccessToken} from 'react-native-fbsdk-next';
 import storage from '@react-native-firebase/storage';
 import database from '@react-native-firebase/database';
-import {useReducer} from 'react';
+
 import messaging from '@react-native-firebase/messaging';
 import {getAllUsersAsync, getAllChatsAsync} from '../dashboard/chat';
 
@@ -51,7 +37,6 @@ export const loginHandler = userDetails => {
       );
 
       if (firebaseData.user.uid) {
-        const userData = {...userDetails, userId: firebaseData.user.uid};
         getUserDetails(dispatch, firebaseData.user.uid);
       } else {
         dispatch(disableLoader());
@@ -226,26 +211,6 @@ export const signUpHandler = (userDetails, photo) => {
   };
 };
 
-const postSocialUser = async (dispatch, userData) => {
-  console.log(userData.userId);
-  try {
-    const response = await database()
-      .ref(`/users/${userData.userId}`)
-      .once('value');
-    const userDetails = response.val();
-    if (userDetails?.userId) {
-      dispatch(getUser(userDetails));
-    } else {
-      postUserDetails(dispatch, userData);
-    }
-  } catch (e) {
-    console.log(e);
-    Alert.alert('', e.message);
-    dispatch(disableLoader());
-  }
-  dispatch(disableLoader());
-};
-
 const postUserDetails = async (dispatch, userData) => {
   try {
     const response = await database()
@@ -277,9 +242,9 @@ const getUserDetails = async (dispatch, userId) => {
       dispatch(getAllUsersAsync(userDetails.userId));
       dispatch(getAllChatsAsync(userDetails.userId));
       dispatch(getUser(userDetails));
-    } else {
-      dispatch(disableLoader());
     }
+
+    dispatch(disableLoader());
   } catch (e) {
     console.log(e);
     Alert.alert('', e.message);

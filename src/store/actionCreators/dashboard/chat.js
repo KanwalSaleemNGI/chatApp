@@ -1,10 +1,8 @@
 import {Alert} from 'react-native';
-import {dispatch} from 'jest-circus/build/state';
 import database from '@react-native-firebase/database';
-import {getAllUsers, getAllChats, sendMessage} from '../../actions/dashboard';
-import {disableLoader, enableLoader} from '../../actions/auth';
+import {getAllUsers, getAllChats} from '../../actions/dashboard';
+import {disableLoader} from '../../actions/auth';
 import dayjs from 'dayjs';
-import {initialWindowMetrics} from 'react-native-safe-area-context';
 
 export const getAllUsersAsync = userId => {
   return async dispatch => {

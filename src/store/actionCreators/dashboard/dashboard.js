@@ -1,12 +1,6 @@
 import {Alert} from 'react-native';
-import {
-  getUser,
-  enableLoader,
-  disableLoader,
-  getData,
-} from '../../actions/auth';
-import {useSelector} from 'react-redux';
-import {ApiUrl} from '../../../constants/ApiUrl';
+import {getUser, enableLoader, disableLoader} from '../../actions/auth';
+
 import storage from '@react-native-firebase/storage';
 import database from '@react-native-firebase/database';
 
@@ -25,7 +19,7 @@ export const editProfileHandler = (
         const imageBucketPath = `/Assets/Images/${photo?.fileName}`;
         const reference = storage().ref(imageBucketPath);
 
-        const task = await reference.putFile(photo?.uri);
+        await reference.putFile(photo?.uri);
 
         userImgPath = await storage()
           .ref(`/Assets/Images/${photo.fileName}`)
@@ -51,9 +45,7 @@ export const editProfileHandler = (
 
 const updateUserDetails = async (dispatch, userData, profileSuccessHandler) => {
   try {
-    const response = await database()
-      .ref(`/users/${userData.userId}`)
-      .update(userData);
+    await database().ref(`/users/${userData.userId}`).update(userData);
 
     dispatch(getUser(userData));
 

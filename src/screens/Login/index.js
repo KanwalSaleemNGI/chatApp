@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, {useRef} from 'react';
 import {
   View,
   Text,
@@ -6,11 +6,6 @@ import {
   Keyboard,
   Image,
   TouchableOpacity,
-  ScrollView,
-  Alert,
-  Button,
-  SafeAreaView,
-  TextInput,
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
@@ -22,7 +17,6 @@ import {
   fbSignInHandler,
 } from '../../store/actionCreators/auth/auth';
 import {useDispatch, useSelector} from 'react-redux';
-import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import styles from './style';
 import Colors from '../../constants/Colors';
 
@@ -38,9 +32,6 @@ const LoginForm = ({navigation}) => {
     handleSubmit,
     formState: {errors},
     register,
-    reset,
-    setError,
-    // setValue,
   } = useForm();
 
   const email = register('email');
@@ -59,8 +50,6 @@ const LoginForm = ({navigation}) => {
     dispatch(fbSignInHandler());
   };
 
-  const [inputValue, setInputValue] = useState('');
-  console.log(errors);
   return isLoading ? (
     <ShowLoader />
   ) : (

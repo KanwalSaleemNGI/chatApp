@@ -14,7 +14,6 @@ const styles = StyleSheet.create({
 
   usersListContainer: {
     width: '100%',
-    // padding: 10,
     flex: 1,
     paddingHorizontal: 10,
   },

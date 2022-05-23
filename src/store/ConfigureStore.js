@@ -6,10 +6,7 @@ import dashboardReducer from './reducers/dashboard';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import {persistStore, persistReducer, createTransform} from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {
-  reducer as network,
-  createReducer as createNetworkReducer,
-} from 'react-native-offline';
+import {createReducer as createNetworkReducer} from 'react-native-offline';
 import {createNetworkMiddleware} from 'react-native-offline';
 import {sendMessageAsync} from './actionCreators/dashboard/chat';
 
@@ -20,7 +17,7 @@ const actions = {
 
 // Transform how the persistor reads the network state
 const networkTransform = createTransform(
-  (inboundState, key) => {
+  inboundState => {
     const actionQueue = [];
 
     inboundState.actionQueue.forEach(action => {
@@ -39,7 +36,7 @@ const networkTransform = createTransform(
       actionQueue,
     };
   },
-  (outboundState, key) => {
+  outboundState => {
     const actionQueue = [];
 
     outboundState.actionQueue.forEach(action => {

@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text} from 'react-native';
 import styles from './style';
 
-const CustomPopUp = ({appIconSource, appTitle, timeText, title, body}) => {
+const CustomPopUp = ({appTitle, title, body}) => {
   return (
     <View style={styles.container}>
       <Text style={styles.appTitle}>{appTitle}</Text>

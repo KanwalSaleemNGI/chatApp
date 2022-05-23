@@ -1,16 +1,13 @@
-import React, {useCallback, useEffect} from 'react';
-import {View, Text, TouchableOpacity, Image, Keyboard} from 'react-native';
+import React from 'react';
+import {View, Text, TouchableOpacity, Image} from 'react-native';
 import dayjs from 'dayjs';
-import {Card} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
-import database from '@react-native-firebase/database';
 import styles from './style';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Colors from '../../constants/Colors';
 
-const chatInfo = ({item}) => {
+const ChatInfo = ({item}) => {
   const navigation = useNavigation();
-
   const date = dayjs(item.recentChat.createdDate).format('DD/MM/YYYY');
 
   return (
@@ -52,4 +49,4 @@ const chatInfo = ({item}) => {
   );
 };
 
-export default chatInfo;
+export default ChatInfo;

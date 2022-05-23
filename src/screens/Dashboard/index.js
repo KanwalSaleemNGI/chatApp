@@ -1,23 +1,8 @@
-import React, {
-  useCallback,
-  useContext,
-  useLayoutEffect,
-  useState,
-  useEffect,
-} from 'react';
-import {
-  View,
-  Text,
-  SafeAreaView,
-  TouchableOpacity,
-  Image,
-  ScrollView,
-  Alert,
-  Button,
-} from 'react-native';
-import {useFocusEffect} from '@react-navigation/native';
+import React, {useLayoutEffect, useState} from 'react';
+import {View, Text, TouchableOpacity} from 'react-native';
+
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {AuthButton} from '../../components';
+
 import Colors from '../../constants/Colors';
 import {logOutHandler} from '../../store/actionCreators/auth/auth';
 import {useDispatch} from 'react-redux';

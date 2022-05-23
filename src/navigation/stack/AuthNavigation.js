@@ -51,7 +51,7 @@ export const AuthNavigator = () => {
       screenOptions={defaultNavOptions}
       initialRouteName="loginForm">
       {screens.map(screen => {
-        return <AuthStack.Screen {...screen} />;
+        return <AuthStack.Screen {...screen} key={screen.key} />;
       })}
     </AuthStack.Navigator>
   );
