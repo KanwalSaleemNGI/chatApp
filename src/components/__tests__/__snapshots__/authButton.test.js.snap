@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AuthButton comp should match snapshot 1`] = `
+<View
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "#4C96D6",
+      "borderRadius": 25,
+      "elevation": 5,
+      "height": 50,
+      "justifyContent": "center",
+      "opacity": 1,
+      "shadowColor": "black",
+      "shadowOffset": Object {
+        "height": 2,
+        "width": 0,
+      },
+      "shadowOpacity": 0.26,
+      "shadowRadius": 8,
+      "width": "90%",
+    }
+  }
+  testID="onPress"
+>
+  <Text
+    allowFontScaling={false}
+    style={
+      Object {
+        "color": "#fff",
+        "fontFamily": "Roboto-Regular",
+        "fontSize": 16,
+      }
+    }
+    testID="title"
+  >
+    Login
+  </Text>
+</View>
+`;

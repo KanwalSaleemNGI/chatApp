@@ -5,6 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 import styles from './style';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Colors from '../../constants/Colors';
+import TestIds from '../../constants/TestIds';
 
 const ChatInfo = ({item}) => {
   const navigation = useNavigation();
@@ -14,7 +15,7 @@ const ChatInfo = ({item}) => {
     <TouchableOpacity
       style={styles.userContainer}
       activeOpacity={0.6}
-      testID={item.userChatData.userId}
+      testID={TestIds.chatInfo.onPress}
       onPress={() => {
         navigation.navigate('userChat', item.userChatData);
         console.log('userId:', item.userChatData.userId);

@@ -19,6 +19,7 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import styles from './style';
 import Colors from '../../constants/Colors';
+import TestIds from '../../constants/TestIds';
 
 const LoginForm = ({navigation}) => {
   const dispatch = useDispatch();
@@ -61,7 +62,7 @@ const LoginForm = ({navigation}) => {
         testID="loginView">
         <View style={styles.screen}>
           <Input
-            testID="emailInput"
+            testID={TestIds.login.emailInput}
             style={styles.input}
             container={{marginTop: 60}}
             control={control}
@@ -87,12 +88,15 @@ const LoginForm = ({navigation}) => {
             keyboardType="email-address"
           />
           {errors.email && (
-            <Text style={styles.errorText} allowFontScaling={false}>
+            <Text
+              style={styles.errorText}
+              allowFontScaling={false}
+              testID="email.errorMessage">
               {errors.email.message}
             </Text>
           )}
           <Input
-            testID="passwordInput"
+            testID={TestIds.login.passwordInput}
             style={styles.input}
             control={control}
             name="password"
@@ -121,7 +125,8 @@ const LoginForm = ({navigation}) => {
           <AuthButton
             style={styles.buttonContainer}
             onPress={handleSubmit(onSubmit)}
-            testID="loginButton">
+            // testID="loginButton"
+          >
             Login
           </AuthButton>
 

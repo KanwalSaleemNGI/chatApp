@@ -6,7 +6,7 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
-    "test": "jest",
+    "test": "jest -u",
     "lint": "eslint ."
   },
   "dependencies": {
@@ -26,6 +26,7 @@
     "react": "17.0.2",
     "react-hook-form": "^7.27.1",
     "react-native": "0.67.3",
+    "react-native-dotenv": "^3.3.1",
     "react-native-fbsdk-next": "^7.3.3",
     "react-native-image-picker": "^4.7.3",
     "react-native-image-viewing": "^0.2.1",
@@ -61,6 +62,7 @@
     "eslint-plugin-react-native": "^4.0.0",
     "jest": "^26.6.3",
     "jest-circus": "^27.5.1",
+    "jest-fetch-mock": "^3.0.3",
     "metro-react-native-babel-preset": "^0.66.2",
     "react-test-renderer": "17.0.2"
   },
