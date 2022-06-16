@@ -7,12 +7,12 @@ describe('AuthButton comp', () => {
   const authButtonTitle = 'Login';
 
   const onPress = jest.fn();
-  console.log(onPress);
+
   const renderHandler = () => {
     return render(<AuthButton onPress={onPress}>{authButtonTitle}</AuthButton>);
   };
 
-  it('should match snapshot', () => {
+  it('should renders correctly', () => {
     //arrange
     const {toJSON} = renderHandler();
 

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AuthButton comp should match snapshot 1`] = `
+exports[`AuthButton comp should renders correctly 1`] = `
 <View
   accessible={true}
   collapsable={false}

@@ -5,6 +5,12 @@ export default {
   },
   chatInfo: {
     onPress: 'onPress',
+    image: 'image',
+    name: 'name',
+    messageText: 'userChatData',
+    icon: 'icon',
+    photoText: 'photoText',
+    date: 'date',
   },
   login: {
     emailInput: 'emailInput',

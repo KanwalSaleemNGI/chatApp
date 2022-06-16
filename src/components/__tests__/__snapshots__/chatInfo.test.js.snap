@@ -1,0 +1,116 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`chatInfo comp should match snapshot 1`] = `
+<View
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "backgroundColor": "#F6F6F6",
+      "borderRadius": 10,
+      "flexDirection": "row",
+      "justifyContent": "space-between",
+      "marginVertical": 10,
+      "opacity": 1,
+      "padding": 10,
+    }
+  }
+  testID="onPress"
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "width": "80%",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "width": "20%",
+        }
+      }
+    >
+      <Image
+        source={
+          Object {
+            "uri": "https://media.istockphoto.com/vectors/user-icon-flat-isolated-on-white-background-user-symbol-vector-vector-id1300845620?k=20&m=1300845620&s=612x612&w=0&h=f4XTZDAv7NPuZbG0habSpU0sNgECM0X7nbKzTUta3n8=",
+          }
+        }
+        style={
+          Object {
+            "borderRadius": 25,
+            "height": 50,
+            "width": 50,
+          }
+        }
+        testID="image"
+      />
+    </View>
+    <View
+      style={
+        Object {
+          "marginHorizontal": 5,
+          "width": "80%",
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#000000",
+            "fontFamily": "Roboto-Medium",
+            "fontSize": 16,
+          }
+        }
+        testID="name"
+      >
+        Kanwal saleem
+      </Text>
+      <Text
+        numberOfLines={1}
+        style={
+          Object {
+            "color": "#655A58",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 14,
+          }
+        }
+        testID="userChatData"
+      >
+        Hi
+      </Text>
+    </View>
+  </View>
+  <View
+    style={
+      Object {
+        "alignItems": "flex-end",
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "#655A58",
+          "fontFamily": "Roboto-Regular",
+          "fontSize": 12,
+        }
+      }
+      testID="date"
+    >
+      10/10/2022
+    </Text>
+  </View>
+</View>
+`;
