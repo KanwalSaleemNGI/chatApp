@@ -16,4 +16,9 @@ export default {
     emailInput: 'emailInput',
     passwordInput: 'passwordInput',
   },
+  customPopUp: {
+    appTitle: 'appTitle',
+    title: 'title',
+    body: 'body',
+  },
 };

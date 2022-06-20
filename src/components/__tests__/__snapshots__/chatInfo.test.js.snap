@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`chatInfo comp should match snapshot 1`] = `
+exports[`ChatInfo comp should match snapshot 1`] = `
 <View
   accessible={true}
   collapsable={false}

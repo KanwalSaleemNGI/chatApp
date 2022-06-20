@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`customPopUp comp should renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "#4C96D6",
+      "borderRadius": 15,
+      "padding": 15,
+      "width": "100%",
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "fontFamily": "Roboto-Bold",
+        "fontSize": 18,
+      }
+    }
+    testID="appTitle"
+  >
+    chatApp
+  </Text>
+  <Text
+    style={
+      Object {
+        "fontFamily": "Roboto-Medium",
+        "fontSize": 16,
+        "marginTop": 5,
+      }
+    }
+    testID="title"
+  >
+    Notification
+  </Text>
+  <Text
+    style={
+      Object {
+        "fontFamily": "Roboto-Regular",
+        "fontSize": 14,
+        "marginTop": 5,
+      }
+    }
+    testID="body"
+  >
+    New message arrived
+  </Text>
+</View>
+`;
